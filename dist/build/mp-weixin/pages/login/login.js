@@ -1,0 +1,1 @@
+"use strict";var e=require("../../common/vendor.js");require("../../api/index.js");const r={setup:()=>({goIndex:()=>{e.index.switchTab({url:"/pages/index/index"})}})};if(!Array){e.resolveComponent("van-button")()}var n=e._export_sfc(r,[["render",function(r,n,t,i,o,s){return{a:e.p({type:"primary"}),b:e.o(((...e)=>r.submitPwd&&r.submitPwd(...e)))}}]]);wx.createPage(n);

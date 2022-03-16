@@ -1,0 +1,10 @@
+
+van-tabs {
+  height: 100% !important;
+}
+.content {
+  height: 500px;
+}
+.h {
+  height: 500px;
+}

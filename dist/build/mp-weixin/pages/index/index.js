@@ -1,0 +1,1 @@
+"use strict";var o=require("../../common/vendor.js");const n={setup:()=>({goLogin:function(){o.index.navigateTo({url:"/pages/login/login"})}})};var e=o._export_sfc(n,[["render",function(n,e,r,g,i,t){return{a:o.o(((...o)=>g.goLogin&&g.goLogin(...o)))}}]]);wx.createPage(e);

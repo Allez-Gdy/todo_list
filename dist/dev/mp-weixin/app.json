@@ -1,0 +1,42 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/index/index",
+    "pages/moreApp/index",
+    "pages/user/user"
+  ],
+  "usingComponents": {
+    "van-button": "./wxcomponents/vant/dist/button/index",
+    "van-field": "./wxcomponents/vant/dist/field/index",
+    "van-cell": "./wxcomponents/vant/dist/cell/index",
+    "van-cell-group": "./wxcomponents/vant/dist/cell-group/index",
+    "van-tab": "./wxcomponents/vant/dist/tab/index",
+    "van-tabs": "./wxcomponents/vant/dist/tabs/index"
+  },
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "事项"
+      },
+      {
+        "pagePath": "pages/moreApp/index",
+        "text": "应用"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的"
+      }
+    ]
+  }
+}
