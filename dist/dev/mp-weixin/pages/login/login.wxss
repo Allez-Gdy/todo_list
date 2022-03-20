@@ -23,6 +23,15 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.login_page .login-img image {
+  height: 400px;
+  width: 400px;
+}
+.login_page .login-title {
+  padding-left: 12px;
+  font-size: 20px;
+  font-weight: 600;
+}
 .login_page .login_form {
   padding: 10px 20px;
 }

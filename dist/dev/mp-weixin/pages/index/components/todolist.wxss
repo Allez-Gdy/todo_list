@@ -1,0 +1,64 @@
+.flex {
+  display: flex;
+}
+.finish {
+  text-decoration: line-through;
+  font-style: italic;
+}
+.close {
+  display: inline-block;
+  transform: rotate(0deg);
+  transition: all 0.5s;
+}
+.open {
+  display: inline-block;
+  transform: rotate(180deg);
+  transition: all 0.5s;
+}
+.todo-item {
+  min-height: 100rpx;
+  margin-bottom: 10rpx;
+}
+.todo-item .todo-btn,
+.todo-item .item-more {
+  width: 100rpx;
+  text-align: center;
+  line-height: 100rpx;
+}
+.todo-item .todo-btn {
+  color: #4444f6;
+}
+.todo-item .sub-btn {
+  color: #8787ff;
+}
+.todo-item .todo-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+.todo-item .todo-content .import {
+  font-size: 12px;
+  color: #909090;
+}
+.todo-item:last-child {
+  margin-bottom: 50rpx;
+}
+.sub-list {
+  padding-left: 100rpx;
+}
+.sub-list .sub-list-item {
+  height: 80rpx;
+  align-items: center;
+}
+.sub-list .sub-list-item .sub-btn {
+  width: 70rpx;
+  text-align: center;
+}
+.sub-list .sub-list-item .sub-title {
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}

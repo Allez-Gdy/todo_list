@@ -11,13 +11,17 @@
     "van-cell": "./wxcomponents/vant/dist/cell/index",
     "van-cell-group": "./wxcomponents/vant/dist/cell-group/index",
     "van-tab": "./wxcomponents/vant/dist/tab/index",
-    "van-tabs": "./wxcomponents/vant/dist/tabs/index"
+    "van-tabs": "./wxcomponents/vant/dist/tabs/index",
+    "van-config-provider": "./wxcomponents/vant/dist/config-provider/index",
+    "van-empty": "./wxcomponents/vant/dist/empty/index"
   },
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
     "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
+    "backgroundColor": "#F8F8F8",
+    "enablePullDownRefresh": false,
+    "disableScroll": true
   },
   "tabBar": {
     "color": "#7A7E83",
@@ -38,5 +42,6 @@
         "text": "我的"
       }
     ]
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }

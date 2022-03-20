@@ -14,6 +14,28 @@ function makeMap(str, expectsLowerCase) {
   }
   return expectsLowerCase ? (val) => !!map[val.toLowerCase()] : (val) => !!map[val];
 }
+const toDisplayString = (val) => {
+  return isString$1(val) ? val : val == null ? "" : isArray$1(val) || isObject$1(val) && (val.toString === objectToString || !isFunction$1(val.toString)) ? JSON.stringify(val, replacer, 2) : String(val);
+};
+const replacer = (_key, val) => {
+  if (val && val.__v_isRef) {
+    return replacer(_key, val.value);
+  } else if (isMap(val)) {
+    return {
+      [`Map(${val.size})`]: [...val.entries()].reduce((entries, [key, val2]) => {
+        entries[`${key} =>`] = val2;
+        return entries;
+      }, {})
+    };
+  } else if (isSet(val)) {
+    return {
+      [`Set(${val.size})`]: [...val.values()]
+    };
+  } else if (isObject$1(val) && !isArray$1(val) && !isPlainObject$1(val)) {
+    return String(val);
+  }
+  return val;
+};
 const EMPTY_OBJ = Object.freeze({});
 const EMPTY_ARR = Object.freeze([]);
 const NOOP = () => {
@@ -100,8 +122,8 @@ const E = function() {
 };
 E.prototype = {
   on: function(name, callback, ctx) {
-    var e = this.e || (this.e = {});
-    (e[name] || (e[name] = [])).push({
+    var e2 = this.e || (this.e = {});
+    (e2[name] || (e2[name] = [])).push({
       fn: callback,
       ctx
     });
@@ -127,8 +149,8 @@ E.prototype = {
     return this;
   },
   off: function(name, callback) {
-    var e = this.e || (this.e = {});
-    var evts = e[name];
+    var e2 = this.e || (this.e = {});
+    var evts = e2[name];
     var liveEvents = [];
     if (evts && callback) {
       for (var i = 0, len = evts.length; i < len; i++) {
@@ -136,7 +158,7 @@ E.prototype = {
           liveEvents.push(evts[i]);
       }
     }
-    liveEvents.length ? e[name] = liveEvents : delete e[name];
+    liveEvents.length ? e2[name] = liveEvents : delete e2[name];
     return this;
   }
 };
@@ -206,9 +228,9 @@ function assertType$1(value, type) {
   let valid;
   const expectedType = getType$1(type);
   if (isSimpleType$1(expectedType)) {
-    const t = typeof value;
-    valid = t === expectedType.toLowerCase();
-    if (!valid && t === "object") {
+    const t2 = typeof value;
+    valid = t2 === expectedType.toLowerCase();
+    if (!valid && t2 === "object") {
       valid = value instanceof type;
     }
   } else if (expectedType === "Object") {
@@ -264,8 +286,8 @@ function tryCatch(fn) {
   return function() {
     try {
       return fn.apply(fn, arguments);
-    } catch (e) {
-      console.error(e);
+    } catch (e2) {
+      console.error(e2);
     }
   };
 }
@@ -3290,7 +3312,7 @@ function isSameType(a, b) {
 }
 function getTypeIndex(type, expectedTypes) {
   if (isArray$1(expectedTypes)) {
-    return expectedTypes.findIndex((t) => isSameType(t, type));
+    return expectedTypes.findIndex((t2) => isSameType(t2, type));
   } else if (isFunction$1(expectedTypes)) {
     return isSameType(expectedTypes, type) ? 0 : -1;
   }
@@ -3338,9 +3360,9 @@ function assertType(value, type) {
   let valid;
   const expectedType = getType(type);
   if (isSimpleType(expectedType)) {
-    const t = typeof value;
-    valid = t === expectedType.toLowerCase();
-    if (!valid && t === "object") {
+    const t2 = typeof value;
+    valid = t2 === expectedType.toLowerCase();
+    if (!valid && t2 === "object") {
       valid = value instanceof type;
     }
   } else if (expectedType === "Object") {
@@ -4240,14 +4262,14 @@ function findComponentPublicInstance(mpComponents, id) {
   }
   return null;
 }
-function setTemplateRef({ r, f }, refValue, setupState) {
+function setTemplateRef({ r, f: f2 }, refValue, setupState) {
   if (isFunction$1(r)) {
     r(refValue, {});
   } else {
     const _isString = isString$1(r);
     const _isRef = isRef(r);
     if (_isString || _isRef) {
-      if (f) {
+      if (f2) {
         if (!_isRef) {
           return;
         }
@@ -4407,8 +4429,8 @@ function setupRenderEffect(instance) {
   update.id = instance.uid;
   toggleRecurse(instance, true);
   {
-    effect.onTrack = instance.rtc ? (e) => invokeArrayFns$1(instance.rtc, e) : void 0;
-    effect.onTrigger = instance.rtg ? (e) => invokeArrayFns$1(instance.rtg, e) : void 0;
+    effect.onTrack = instance.rtc ? (e2) => invokeArrayFns$1(instance.rtc, e2) : void 0;
+    effect.onTrigger = instance.rtg ? (e2) => invokeArrayFns$1(instance.rtg, e2) : void 0;
     update.ownerInstance = instance;
   }
   update();
@@ -4657,13 +4679,13 @@ function vOn(value, key) {
   return name;
 }
 function createInvoker(initialValue, instance) {
-  const invoker = (e) => {
-    patchMPEvent(e);
-    let args = [e];
-    if (e.detail && e.detail.__args__) {
-      args = e.detail.__args__;
+  const invoker = (e2) => {
+    patchMPEvent(e2);
+    let args = [e2];
+    if (e2.detail && e2.detail.__args__) {
+      args = e2.detail.__args__;
     }
-    callWithAsyncErrorHandling(patchStopImmediatePropagation(e, invoker.value), instance, 5, args);
+    callWithAsyncErrorHandling(patchStopImmediatePropagation(e2, invoker.value), instance, 5, args);
   };
   invoker.value = initialValue;
   return invoker;
@@ -4688,19 +4710,54 @@ function patchMPEvent(event) {
     }
   }
 }
-function patchStopImmediatePropagation(e, value) {
+function patchStopImmediatePropagation(e2, value) {
   if (isArray$1(value)) {
-    const originalStop = e.stopImmediatePropagation;
-    e.stopImmediatePropagation = () => {
-      originalStop && originalStop.call(e);
-      e._stopped = true;
+    const originalStop = e2.stopImmediatePropagation;
+    e2.stopImmediatePropagation = () => {
+      originalStop && originalStop.call(e2);
+      e2._stopped = true;
     };
-    return value.map((fn) => (e2) => !e2._stopped && fn(e2));
+    return value.map((fn) => (e3) => !e3._stopped && fn(e3));
   } else {
     return value;
   }
 }
+function vFor(source2, renderItem) {
+  let ret;
+  if (isArray$1(source2) || isString$1(source2)) {
+    ret = new Array(source2.length);
+    for (let i = 0, l = source2.length; i < l; i++) {
+      ret[i] = renderItem(source2[i], i, i);
+    }
+  } else if (typeof source2 === "number") {
+    if (!Number.isInteger(source2)) {
+      warn$1(`The v-for range expect an integer value but got ${source2}.`);
+      return [];
+    }
+    ret = new Array(source2);
+    for (let i = 0; i < source2; i++) {
+      ret[i] = renderItem(i + 1, i, i);
+    }
+  } else if (isObject$1(source2)) {
+    if (source2[Symbol.iterator]) {
+      ret = Array.from(source2, (item, i) => renderItem(item, i, i));
+    } else {
+      const keys = Object.keys(source2);
+      ret = new Array(keys.length);
+      for (let i = 0, l = keys.length; i < l; i++) {
+        const key = keys[i];
+        ret[i] = renderItem(source2[key], key, i);
+      }
+    }
+  } else {
+    ret = [];
+  }
+  return ret;
+}
 const o = (value, key) => vOn(value, key);
+const f = (source2, renderItem) => vFor(source2, renderItem);
+const e = (target, ...sources) => extend$1(target, ...sources);
+const t = (val) => toDisplayString(val);
 const p = (props) => renderProps(props);
 function createApp$1(rootComponent, rootProps = null) {
   rootComponent && (rootComponent.mpType = "app");
@@ -6043,9 +6100,9 @@ function stringifySafely(rawValue, parser, encoder) {
     try {
       (parser || JSON.parse)(rawValue);
       return utils$6.trim(rawValue);
-    } catch (e) {
-      if (e.name !== "SyntaxError") {
-        throw e;
+    } catch (e2) {
+      if (e2.name !== "SyntaxError") {
+        throw e2;
       }
     }
   }
@@ -6085,12 +6142,12 @@ var defaults$3 = {
     if (strictJSONParsing || forcedJSONParsing && utils$6.isString(data2) && data2.length) {
       try {
         return JSON.parse(data2);
-      } catch (e) {
+      } catch (e2) {
         if (strictJSONParsing) {
-          if (e.name === "SyntaxError") {
-            throw enhanceError(e, this, "E_JSON_PARSE");
+          if (e2.name === "SyntaxError") {
+            throw enhanceError(e2, this, "E_JSON_PARSE");
           }
-          throw e;
+          throw e2;
         }
       }
     }
@@ -6513,8 +6570,12 @@ var axios = axios$2.exports;
 exports._export_sfc = _export_sfc;
 exports.axios = axios;
 exports.createSSRApp = createSSRApp;
+exports.e = e;
+exports.f = f;
 exports.index = index;
 exports.o = o;
 exports.p = p;
+exports.reactive = reactive;
 exports.ref = ref;
 exports.resolveComponent = resolveComponent;
+exports.t = t;

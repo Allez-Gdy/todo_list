@@ -53,11 +53,11 @@
         "appid" : "wxa2ee00657be96da2",
         "setting" : {
             "urlCheck" : false,
-            "packNpmManually": true,
-            "packNpmRelationList": [
+            "packNpmManually" : true,
+            "packNpmRelationList" : [
                 {
-                    "packageJsonPath": "./package.json",
-                    "miniprogramNpmDistDir": "./"
+                    "packageJsonPath" : "./package.json",
+                    "miniprogramNpmDistDir" : "./"
                 }
             ]
         },
@@ -72,8 +72,17 @@
     "mp-toutiao" : {
         "usingComponents" : true
     },
-    "uniStatistics": {  
-        "enable": false
+    "uniStatistics" : {
+        "enable" : false
+    },
+    "h5" : {
+        "router" : {
+            "mode" : "hash",
+            "base" : "/html/"
+        },
+        "devServer" : {
+            "https" : false
+        }
     },
     "vueVersion" : "3"
 }

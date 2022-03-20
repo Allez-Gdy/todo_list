@@ -3,8 +3,11 @@ van-tabs {
   height: 100% !important;
 }
 .content {
-  height: 500px;
+  background-color: antiquewhite;
+  height: 100vh;
+  overflow-y: auto;
 }
 .h {
-  height: 500px;
+  height: 94vh;
+  background-color: aliceblue;
 }

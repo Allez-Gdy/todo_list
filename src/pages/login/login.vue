@@ -8,9 +8,12 @@ export default {
 				url: "/pages/index/index"
 			})
 		}
+    // const loginImg = ref(require('../../assets/images/loginImg.png'));
 
 		return {
-			submitForm
+			submitForm,
+      // loginImg
+     
 		}
 	}
 }
@@ -18,9 +21,14 @@ export default {
 
 <template>
 	<div class="login_page">
-		<!-- <div>
-			<img src="" alt="">
-		</div> -->
+		<div class="login-img">
+      <image src="/static/img/loginImg.png"></image>
+		</div>
+    <div class="login-title">
+      <div class="login-title">
+        登录
+      </div>
+    </div>
 		<div class="login_form">
 			<div class="form-item">
 				<van-field
@@ -44,9 +52,19 @@ export default {
 </template>
 <style lang="scss">
 	.login_page {
-		 .login_form {
-			 padding: 10px 20px;
-			 
-		 }
+    .login-img {
+      image {
+        height: 400px;
+        width: 400px;
+      }
+    }
+    .login-title {
+      padding-left: 12px;
+      font-size: 20px;
+      font-weight: 600;   
+    }
+    .login_form {
+      padding: 10px 20px;
+    }
 	}
 </style>

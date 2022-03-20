@@ -1,0 +1,1 @@
+<view><view>{{a}}</view><view wx:if="{{b}}">faskfldafd</view><button bindtap="{{c}}">按钮</button></view>
