@@ -1,1 +1,1 @@
-<view class="add" bindmousedown="{{a}}"> add </view>
+<view class="add"> + </view>

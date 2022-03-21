@@ -13,7 +13,9 @@
     "van-tab": "./wxcomponents/vant/dist/tab/index",
     "van-tabs": "./wxcomponents/vant/dist/tabs/index",
     "van-config-provider": "./wxcomponents/vant/dist/config-provider/index",
-    "van-empty": "./wxcomponents/vant/dist/empty/index"
+    "van-empty": "./wxcomponents/vant/dist/empty/index",
+    "van-action-sheet": "./wxcomponents/vant/dist/action-sheet/index",
+    "van-overlay": "./wxcomponents/vant/dist/overlay/index"
   },
   "window": {
     "navigationBarTextStyle": "black",
@@ -42,6 +44,5 @@
         "text": "我的"
       }
     ]
-  },
-  "sitemapLocation": "sitemap.json"
+  }
 }

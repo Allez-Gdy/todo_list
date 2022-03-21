@@ -1,7 +1,6 @@
 {
   "navigationBarTitleText": "事项",
   "usingComponents": {
-    "todolist": "./components/todolist",
-    "add-todo": "../../components/addTodo"
+    "todolist": "./components/todolist"
   }
 }
