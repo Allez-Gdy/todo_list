@@ -2,7 +2,6 @@ van-tabs {
   height: 100% !important;
 }
 .content {
-  background-color: antiquewhite;
   height: 100vh;
   overflow-y: auto;
   position: relative;
@@ -10,6 +9,9 @@ van-tabs {
 .h {
   height: 93vh;
   background-color: aliceblue;
+}
+.t {
+  height: 70vh;
 }
 .select-items {
   padding: 15px 20px;
@@ -20,12 +22,17 @@ van-tabs {
   justify-content: space-between;
 }
 .add-btn {
+  border-radius: 50%;
   position: absolute;
   right: 30px;
   bottom: 120px;
   width: 50px;
   height: 50px;
+  text-align: center;
+  line-height: 50px;
   background-color: #ccc;
+  color: #fff;
+  background-color: #7ec1ff;
 }
 .add-input {
   z-index: 100;
@@ -33,14 +40,6 @@ van-tabs {
   bottom: 0;
   height: 80px;
   width: 100%;
-  /*input {
-    height: 45px;
-    line-height: 45px;
-    background-color: #ccc;
-    width: 100%;
-    padding: 5px 20px;
-    box-sizing: border-box;
-  }*/
 }
 .add-input .add-set {
   display: flex;
@@ -51,4 +50,10 @@ van-tabs {
 .add-input .add-set .set-item {
   margin: 0 15px;
   font-size: 20px;
+}
+.add-input .submit-todo {
+  position: absolute;
+  z-index: 150;
+  right: 20px;
+  top: 10px;
 }

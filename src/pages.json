@@ -49,6 +49,9 @@
 			"van-empty": "./wxcomponents/vant/dist/empty/index",
 			"van-action-sheet": "./wxcomponents/vant/dist/action-sheet/index",
 			"van-overlay": "./wxcomponents/vant/dist/overlay/index",
+			"van-datetime-picker": "./wxcomponents/vant/dist/datetime-picker/index",
+			"van-notify": "./wxcomponents/vant/dist/notify/index"
+
 		}
 	},
 	"tabBar": {

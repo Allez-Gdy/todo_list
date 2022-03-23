@@ -49,7 +49,12 @@ export default {
           <span class="todo-title" :class="{'finish': item.isFinish}">{{item.title}}</span>
           <span class="import"><span>日程：</span><span>紧急且重要</span></span>
         </div>
-        <div class="item-more" v-if="item.subTodo" @click="itemMore(item.id)"><span class="iconfont icon-xuanzeqizhankai" :class="{'open': iszhuan && isOpen[item.id],'close': !iszhuan || !isOpen[item.id]}"></span></div>
+        <div class="item-more" v-if="item.subTodo" @click="itemMore(item.id)">
+          <span 
+            class="iconfont icon-xuanzeqizhankai" 
+            :class="{'open': iszhuan && isOpen[item.id],'close': !iszhuan || !isOpen[item.id]}"
+          ></span>
+        </div>
       </div>
       <ul class="sub-list" v-if="item.subTodo && isOpen[item.id]">
         <li class="sub-list-item flex" v-for="subitem in item.subTodo" :key="subitem.id">
