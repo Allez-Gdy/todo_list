@@ -17,7 +17,9 @@
     "van-action-sheet": "./wxcomponents/vant/dist/action-sheet/index",
     "van-overlay": "./wxcomponents/vant/dist/overlay/index",
     "van-datetime-picker": "./wxcomponents/vant/dist/datetime-picker/index",
-    "van-notify": "./wxcomponents/vant/dist/notify/index"
+    "van-notify": "./wxcomponents/vant/dist/notify/index",
+    "van-collapse": "./wxcomponents/vant/dist/collapse/index",
+    "van-collapse-item": "./wxcomponents/vant/dist/collapse-item/index"
   },
   "window": {
     "navigationBarTextStyle": "black",

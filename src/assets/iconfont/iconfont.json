@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1302",
+      "name": "加",
+      "font_class": "jia",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "12387128",
+      "name": "飞机",
+      "font_class": "feiji",
+      "unicode": "e90a",
+      "unicode_decimal": 59658
+    },
+    {
       "icon_id": "2742655",
       "name": "时间",
       "font_class": "shijian",

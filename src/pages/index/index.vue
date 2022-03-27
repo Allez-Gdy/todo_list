@@ -1,13 +1,41 @@
 <script>
 import { reactive, ref, watch } from 'vue'
-import Todolist from './components/todolist.vue';
-import AddTodo from '../../components/addTodo.vue';
-import uniDatetimePicker from '../../components/uni-datetime-picker/uni-datetime-picker.vue';
-import Notify from '../../wxcomponents/vant/dist/notify/notify';
+import Todolist from './components/todolist.vue'
+import AddTodo from '../../components/addTodo.vue'
+import uniDatetimePicker from '../../components/uni-datetime-picker/uni-datetime-picker.vue'
+import uniNavBar from '../../components/uni-nav-bar/components/uni-nav-bar/uni-nav-bar.vue'
+import uniDrawer from '../../components/uni-drawer/components/uni-drawer/uni-drawer.vue'
+import Notify from '../../wxcomponents/vant/dist/notify/notify'
 export default {
+  methods: {
+    showDrawer() {
+      this.$refs.showRight.open();
+    },
+  },
   setup() {
-    const active = ref(0); // tab 索引
-    const active2 = ref(0);
+    // 模拟数据
+    const allTodoList = reactive([
+      {id: 0, title: '吃饭', isFinish: true, sort: '生活',subTodo: [{id: 0, title: '子任务1',isFinish: false},{id: 1, title: '子任务1',isFinish: true}],uid: 0},
+      {id: 1, title: '睡觉', isFinish: false, sort: '生活',uid: 0},
+      {id: 2, title: '上课', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false},{id: 1, title: '子任务1',isFinish: false},{id: 2, title: '子任务1',isFinish: false}],uid: 0},
+      {id: 3, title: '写作业', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
+      {id: 3, title: '写作业', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
+      {id: 3, title: '写作业', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
+      {id: 3, title: '写作业', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
+      {id: 3, title: '写作业', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
+    ])
+    const sortTodList = reactive([
+      {id: 0, title: '吃饭1', isFinish: false, sort: '生活',subTodo: [{id: 0, title: '子任务1',isFinish: false},{id: 1, title: '子任务1',isFinish: false}],uid: 0},
+      {id: 1, title: '睡觉1', isFinish: false, sort: '生活',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
+      {id: 2, title: '上课1', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false},{id: 1, title: '子任务1',isFinish: false},{id: 2, title: '子任务1',isFinish: false}],uid: 0},
+      {id: 3, title: '写作业1', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
+    ])
+    const todoSort = ['生活', '学习', '工作'];
+
+
+    const active = ref(0); // 主页面tab 索引
+    const active2 = ref(0); // 选择时间 tab 索引
+    const isHeight = ref(true);
 
     let myDate = new Date();
     let hours = myDate.getHours();
@@ -45,7 +73,9 @@ export default {
     const todoValue = reactive({
       title: '',
       currentDate: `${hours}:${minutes}`,
-      datetimerange: ''
+      datetimerange: '',
+      sort: todoSort[0],
+      importIndex: 0
     });
     // 时间点标题
     const dianTitle = ref(`${month}/${date}周${day}`)
@@ -54,24 +84,22 @@ export default {
     const onInput = (event) => {
       todoValue.currentDate = event.detail
     }
-
-    /*选择范围时间*/
-    const updatatimerange = ()=> {
-      console.log(todoValue.datetimerange);
-    }
+    
     watch(()=> todoValue.datetimerange,(val)=> {
       todoValue.datetimerange = val
     })
 
-
     const onChange = function (event) {
       // 切换主tabs 事件
-      console.log(event.detail.name);
+      if(event.detail.name !== 0 && event.detail.name !== todoSort.length + 1) {
+        todoValue.sort = todoSort[event.detail.name - 1];
+      }else {
+      }
+      console.log(todoValue.sort);
     };
     const onChange2 = function (event) {
       // 切换时间tabs 事件
-      console.log(event.detail.name);
-
+      active2.value = event.detail.name
       if(event.detail.name === 0) {
         // 选择时间点
         todoValue.datetimerange=''
@@ -80,52 +108,98 @@ export default {
         todoValue.currentDate=`${hours}:${minutes}`
       }
     };
-
-    // 模拟数据
-    const allTodoList = reactive([
-      {id: 0, title: '吃饭', isFinish: true, sort: '生活',subTodo: [{id: 0, title: '子任务1',isFinish: false},{id: 1, title: '子任务1',isFinish: true}],uid: 0},
-      {id: 1, title: '睡觉', isFinish: false, sort: '生活',uid: 0},
-      {id: 2, title: '上课', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false},{id: 1, title: '子任务1',isFinish: false},{id: 2, title: '子任务1',isFinish: false}],uid: 0},
-      {id: 3, title: '写作业', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
-    ])
-    const sortTodList = reactive([
-      {id: 0, title: '吃饭1', isFinish: false, sort: '生活',subTodo: [{id: 0, title: '子任务1',isFinish: false},{id: 1, title: '子任务1',isFinish: false}],uid: 0},
-      {id: 1, title: '睡觉1', isFinish: false, sort: '生活',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
-      {id: 2, title: '上课1', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false},{id: 1, title: '子任务1',isFinish: false},{id: 2, title: '子任务1',isFinish: false}],uid: 0},
-      {id: 3, title: '写作业1', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
-    ])
-    const todoSort = ['生活', '学习', '工作'];
     
     const isInput = ref(false);
-    const iptBottom = ref(0) // input 距离底部距离
-
+    // input 距离底部距离
+    const iptBottom = ref(0) 
     const getFocus = (e)=> {
       iptBottom.value = e.detail.height - 80;
     }
     const outFocus =(e)=> {
       iptBottom.value = 0
     }
-
-    const isSheet = ref(false); // 动作面板
-    const onAddBtn = ()=> {
-      isInput.value = true;
-      
-    }
-
     // 动作面板
-    const setTime = ()=> {
-      isSheet.value = true
+    const isSheet = ref(false); 
+    const isSortSheet = ref(false);
+    const isImportSheet = ref(false);
+
+    const selectImport = (index)=> {
+      todoValue.importIndex = index;
+      isImportSheet.value = false;
+      
+    }
+    const selectSort = (item)=> {
+      todoValue.sort = item;
+      isSortSheet.value = false;
+      let todoInput = uni.createSelectorQuery().select('#todo-input');
+      // todoInput.boundingClientRect((data)=>{
+      //     console.log(data)
+      // }).exec()
     }
 
-    const submitTime = ()=> {
-      console.log(todoValue);
+    // 如果没有选择时间 那么就没有时间
+    let isTime = ref(false);
+    const closeTime = ()=> {
+      isSheet.value = false;
+      isTime.value = false;
     }
+    const sureTime = ()=> {
+      isSheet.value = false;
+      isTime.value = true;
+    }
+
+    // 提交
     const submitTodo = (e)=> {
-      
-      if(todoValue.title==='') {
+      e.preventDefault();
+      todoValue.title = todoValue.title.trim();
+      if(todoValue.title === '') {
         Notify({ type: 'warning', message: '请输入内容' });
+        return
       }
-      console.log(todoValue);
+      // 先判断选择是时间类型
+      if(active2.value === 0) {
+        // 全天
+        let oneDay = '';
+        if(isTime.value) {
+          oneDay = dianTitle.value;
+        }else {
+          oneDay = ''
+        }
+        let params = {
+          title: todoValue.title,
+          sort: todoValue.sort,
+          import: todoValue.importIndex,
+          oneDay: oneDay,
+          currentDate: '',
+          datetimerange: '' 
+        }
+        console.log(params);
+      }else if(active2.value === 1) {
+        // 时间点
+        let params = {
+          title: todoValue.title,
+          sort: todoValue.sort,
+          import: todoValue.importIndex,
+          oneDay: '',
+          currentDate: dianTitle.value + todoValue.currentDate,
+          datetimerange: '' 
+        }
+        console.log(params);
+      }else {
+        // 时间段
+        let params = {
+          title: todoValue.title,
+          sort: todoValue.sort,
+          import: todoValue.importIndex,
+          oneDay: '',
+          currentDate: '',
+          datetimerange: todoValue.datetimerange
+        }
+        console.log(params);
+      }
+      isInput.value = false;
+      todoValue.title = ''
+      todoValue.currentDate = `${hours}:${minutes}`
     }
 
     return {
@@ -140,15 +214,19 @@ export default {
         isInput,
         todoValue,
         isSheet,
-        onAddBtn,
-        setTime,
         onInput,
         active2,
         dianTitle,
-        updatatimerange,
-        submitTime,
         onChange2,
-        submitTodo
+        submitTodo,
+        isSortSheet,
+        isImportSheet,
+        selectImport,
+        selectSort,
+        closeTime,
+        sureTime,
+        isTime,
+        isHeight
     };
     /*1、通过用户id 查询所有当前用户的todolist*/
     
@@ -161,14 +239,63 @@ export default {
       2、todolist有分类，点击不同的分类显示当前用户不同分类下的todolist
     */
   },
-  components: { Todolist, AddTodo, uniDatetimePicker }
+  components: { Todolist, AddTodo, uniDatetimePicker, uniNavBar, uniDrawer }
 }
 </script>
 
 <template>
+  <uni-nav-bar 
+    @clickLeft="showDrawer"
+    :statusBar="true"
+    title="事项清单">
+    <template v-slot:left>
+      <span class="iconfont icon-feiji" style="margin-left: 20px;"></span>
+    </template>
+  </uni-nav-bar>
+  <uni-drawer left-icon="left" ref="showRight" mode="left">
+    <div class="status-nav-h"></div>
+    <div class="status-nav-h"></div>
+    <div class="drawer" style="width: 100%;">
+      <ul class="drawer-list">
+        <li class="drawer-item">
+          <span style="color:#999;">按分类展示</span>
+        </li>
+        <li class="drawer-item">
+          <span class="iconfont icon-feiji drawer-icon"></span>
+          分类管理  
+        </li>
+        <li class="drawer-item">
+          <span style="color:#999;">功能</span>
+        </li>
+        <li class="drawer-item">
+          <span class="iconfont icon-feiji drawer-icon"></span>
+          搜索
+        </li>
+        <li class="drawer-item" @click="isHeight=!isHeight" style="display: flex;flex-wrap: wrap;">
+          <span class="iconfont icon-feiji drawer-icon"></span>
+          <span style="width: 100px;">归档</span><br>
+          
+        </li>
+        <li :class="{'h_0': isHeight,'h_80': !isHeight}" class="guidang">
+          <div class="guidang-item">
+            <span class="iconfont icon-feiji" style="margin-right: 15px;"></span>
+            <span>未完成</span>
+            <span class="guidang-num">1</span></div>
+          <div class="guidang-item">
+            <span class="iconfont icon-feiji" style="margin-right: 15px;"></span>
+            <span>已完成</span>
+            <span class="guidang-num">10</span></div>
+        </li>
+        <li class="drawer-item">
+          <span class="iconfont icon-feiji drawer-icon"></span>
+          统计
+        </li>
+      </ul>
+    </div>
+  </uni-drawer>
   <div class="content">
   <van-notify id="van-notify" />
-    <van-tabs 
+    <van-tabs
       :active="active" 
       @click="onChange" 
       sticky 
@@ -189,11 +316,10 @@ export default {
           </div>
         </template>
       </van-tab>
-      <van-tab title="添加">添加</van-tab>
     </van-tabs>
     <!-- 添加按钮 -->
-    <div class="add-btn" @click="onAddBtn">+</div>
-    <!-- 动作面板 -->
+    <div class="add-btn" @click="isInput = true">+</div>
+    <!-- 时间动作面板 -->
     <van-action-sheet 
       :show="isSheet" 
       :close-on-click-overlay="true" 
@@ -202,13 +328,20 @@ export default {
       >
       <view class="select-items">
         <div class="time-btn">
-          <span @click="isSheet=false">取消</span>
-          <span @click="submitTime">确定</span>
+          <span @click="closeTime">清除时间</span>
+          <span @click="sureTime">确定</span>
         </div>
         <van-tabs :active="active2" @click="onChange2">
+          <van-tab title="全天">
+            <template #default>
+              <div style="text-align: center;margin-top: 20px;">
+                {{dianTitle}}
+              </div>
+            </template>
+          </van-tab>
           <van-tab title="时间点">
             <template #default>
-              <div class="t">
+              <div>
                 <van-datetime-picker
                   type="time"
                   :value="todoValue.currentDate"
@@ -229,7 +362,6 @@ export default {
                   v-model="todoValue.datetimerange"
                   type="datetimerange"
                   rangeSeparator="至"
-                  @change="updatatimerange"
                   @maskClick="todoValue.datetimerange=''"
                 />
               </div>
@@ -238,31 +370,187 @@ export default {
         </van-tabs>
       </view>
     </van-action-sheet>
+    <!-- 分类动作面板 -->
+    <van-action-sheet
+      :show="isSortSheet"
+      :close-on-click-overlay="true"
+      @click-overlay="isSortSheet = false"
+      z-index="200"
+    >
+      <ul class="sort-list">
+        <li class="sort-item" v-for="item in todoSort" :key="item" @click="selectSort(item)">
+          <span>-</span>
+          <span>{{item}}</span>
+        </li>
+      </ul>
+    </van-action-sheet>
+    <!-- 重要程度动作面板 -->
+    <van-action-sheet
+      :show="isImportSheet"
+      :close-on-click-overlay="true"
+      @click-overlay="isImportSheet = false"
+      z-index="200"
+    >
+      <ul class="imp-list">
+        <li class="imp-item" style="color: red;" @click.stop="selectImport(0)">
+          <span style="margin-right: 20px;">1</span>
+          <span class="imp-tit">重要且紧急</span> 
+          <span v-if="todoValue.importIndex === 0" style="color: blue;">√</span>
+        </li>
+        <li class="imp-item" style="color: orange;" @click.stop="selectImport(1)">
+          <span style="margin-right: 20px;">1</span>
+          <span class="imp-tit">重要不紧急</span> 
+          <span v-if="todoValue.importIndex === 1" style="color: blue;">√</span>
+        </li>
+        <li class="imp-item" style="color: green;" @click.stop="selectImport(2)">
+          <span style="margin-right: 20px;">1</span>
+          <span class="imp-tit">不重要紧急</span> 
+          <span v-if="todoValue.importIndex === 2" style="color: blue;">√</span>
+        </li>
+        <li class="imp-item" style="color: blue;" @click.stop="selectImport(3)">
+          <span style="margin-right: 20px;">1</span>
+          <span class="imp-tit">不重要不紧急</span> 
+          <span v-if="todoValue.importIndex === 3" style="color: blue;">√</span>
+        </li>
+      </ul>
+    </van-action-sheet>
     <!-- 输入框 -->
-    <div v-if="isInput" class="add-input" :style="{bottom: iptBottom + 'px'}">
-      <span class="submit-todo" style="background-color: red; height: 40px; width: 50px;" @tap="submitTodo($event)">feiji</span>
-      <van-field 
-        style="z-index: 20;" 
-        type="text" 
-        @focus="getFocus" 
-        @blur="outFocus" 
-        focus 
-        :border="true" 
-        :autosize="true" 
-        :adjust-position="false" 
-        v-model.trim="todoValue.title" 
-        placeholder="把事情记录下来~"></van-field>
+    <div v-if="isInput" class="add-input" :style="{bottom: iptBottom + 'px'}" style="background-color: #fff;">
+      <ul class="show-todo">
+        <li class="show-todo-item" v-if="isTime">
+          <span class="item-span" v-if="active2 == 0">{{dianTitle}}</span>
+          <span class="item-span" v-if="active2 == 1">{{dianTitle}} {{todoValue.currentDate}}</span>
+          <span class="item-span" v-if="active2 == 2 && todoValue.datetimerange.length !=0 && todoValue.datetimerange[0].substr(-8) == '00:00:00'">{{todoValue.datetimerange[0].substr(0,10)}}—{{todoValue.datetimerange[1].substr(0,10)}}</span>
+          <span class="item-span" v-if="active2 == 2 && todoValue.datetimerange.length !=0 && todoValue.datetimerange[0].substr(-8) != '00:00:00'">{{todoValue.datetimerange[0]}}—{{todoValue.datetimerange[1]}}</span>
+        </li>
+        <li class="show-todo-item">
+          <span class="item-span">{{todoValue.sort}}</span>
+        </li>
+        <li class="show-todo-item">
+          <span class="item-span" v-if="todoValue.importIndex == 0">重要且紧急</span>
+          <span class="item-span" v-if="todoValue.importIndex == 1">重要且不紧急</span>
+          <span class="item-span" v-if="todoValue.importIndex == 2">不重要紧急</span>
+          <span class="item-span" v-if="todoValue.importIndex == 3">不重要不紧急</span>
+        </li>
+      </ul>
+      <span class="submit-todo iconfont icon-feiji" @click.stop="submitTodo($event)"></span>
+      <div style="width: 80%;">
+        <van-field
+          id="todo-input"
+          style="z-index: 20;"
+          type="text" 
+          @focus.prevent="getFocus" 
+          @blur="outFocus" 
+          focus
+          :border="true"
+          :autosize="true" 
+          :adjust-position="false"
+          @change="todoValue.title = $event.detail"
+          :value="todoValue.title"
+          placeholder="把事情记录下来~"></van-field>
+      </div>
       <div class="add-set">
-        <span class="set-item iconfont icon-shijian" style="color: #8a8a8a;" @click="setTime"></span>
-        <span class="set-item iconfont icon-fenlei" style="color: #e98f36;"></span>
-        <span class="set-item iconfont icon-gantanhao" style="color: #f95843;"></span>
+        <span class="set-item iconfont icon-shijian" style="color: #8a8a8a;" @click="isSheet = true"></span>
+        <span class="set-item iconfont icon-fenlei" style="color: #e98f36;" @click="isSortSheet = true"></span>
+        <span class="set-item iconfont icon-gantanhao" style="color: #f95843;" @click="isImportSheet = true"></span>
       </div>
     </div>
-    <van-overlay :show="isInput" @click="isInput=false" />
+    <van-overlay :show="isInput" @click="isInput=false" z-index="50" />
   </div>
 </template>
 
 <style lang="less">
+.h_0 {
+  height: 0;
+  overflow: hidden;
+  transition: all .5s;
+}
+.h_80 {
+  height: 80px;
+  overflow: hidden;
+  transition: all .5s;
+}
+.guidang {
+  width: 100%;
+  padding-left: 40px;
+  .guidang-item {
+    height: 40px;
+    line-height: 40px;
+    .guidang-num {
+      color: rgb(83, 157, 255);
+      margin-left: 50px;
+      display: inline-block;
+    }
+  }
+}
+.status-nav-h {
+  height: var(--status-bar-height);
+}
+.drawer {
+  height: 95vh;
+  overflow: auto;
+  .drawer-list {
+    .drawer-item {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      padding: 0 15px;
+      .drawer-icon {
+        margin-right: 15px;
+      }
+    }
+  }
+}
+.show-todo {
+  position: absolute;
+  bottom: 100px;
+  z-index: 200;
+  left: 15px;
+  .show-todo-item {
+    margin-top: 15px;
+    .item-span {
+      background-color: rgb(243, 243, 243);
+      padding: 5px 15px;
+      border-radius: 50px;
+      font-size: 13px;
+      color: rgb(85, 85, 85);
+    }
+  }
+}
+
+.sort-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  justify-content: space-around;
+  align-items: center;
+  .sort-item {
+    background-color: antiquewhite;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.imp-list {
+  padding: 10px 20px;
+  .imp-item {
+    height: 50px;
+    line-height: 50px;
+    display: flex;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, .05);
+    .imp-tit {
+      flex: 1;
+    }
+  }
+}
+
+
 van-tabs {
   height: 100% !important;
 }
@@ -274,7 +562,6 @@ van-tabs {
 }
 .h {
   height: 93vh;
-  background-color: aliceblue;
 }
 .t {
   height: 70vh;
@@ -319,8 +606,10 @@ van-tabs {
   .submit-todo {
     position: absolute;
     z-index: 150;
-    right: 20px;
+    right: 30px;
     top: 10px;
+    font-size: 30px;
+    color: rgb(98, 178, 253);
   }
 }
 </style>

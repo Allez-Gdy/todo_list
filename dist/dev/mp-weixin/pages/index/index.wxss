@@ -1,3 +1,88 @@
+.h_0 {
+  height: 0;
+  overflow: hidden;
+  transition: all 0.5s;
+}
+.h_80 {
+  height: 80px;
+  overflow: hidden;
+  transition: all 0.5s;
+}
+.guidang {
+  width: 100%;
+  padding-left: 40px;
+}
+.guidang .guidang-item {
+  height: 40px;
+  line-height: 40px;
+}
+.guidang .guidang-item .guidang-num {
+  color: #539dff;
+  margin-left: 50px;
+  display: inline-block;
+}
+.status-nav-h {
+  height: var(--status-bar-height);
+}
+.drawer {
+  height: 95vh;
+  overflow: auto;
+}
+.drawer .drawer-list .drawer-item {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+}
+.drawer .drawer-list .drawer-item .drawer-icon {
+  margin-right: 15px;
+}
+.show-todo {
+  position: absolute;
+  bottom: 100px;
+  z-index: 200;
+  left: 15px;
+}
+.show-todo .show-todo-item {
+  margin-top: 15px;
+}
+.show-todo .show-todo-item .item-span {
+  background-color: #f3f3f3;
+  padding: 5px 15px;
+  border-radius: 50px;
+  font-size: 13px;
+  color: #555555;
+}
+.sort-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  justify-content: space-around;
+  align-items: center;
+}
+.sort-list .sort-item {
+  background-color: antiquewhite;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.imp-list {
+  padding: 10px 20px;
+}
+.imp-list .imp-item {
+  height: 50px;
+  line-height: 50px;
+  display: flex;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+.imp-list .imp-item .imp-tit {
+  flex: 1;
+}
 van-tabs {
   height: 100% !important;
 }
@@ -8,7 +93,6 @@ van-tabs {
 }
 .h {
   height: 93vh;
-  background-color: aliceblue;
 }
 .t {
   height: 70vh;
@@ -54,6 +138,8 @@ van-tabs {
 .add-input .submit-todo {
   position: absolute;
   z-index: 150;
-  right: 20px;
+  right: 30px;
   top: 10px;
+  font-size: 30px;
+  color: #62b2fd;
 }

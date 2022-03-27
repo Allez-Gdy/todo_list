@@ -1,7 +1,10 @@
 {
   "navigationBarTitleText": "事项",
+  "navigationStyle": "custom",
   "usingComponents": {
     "todolist": "./components/todolist",
-    "uni-datetime-picker": "../../components/uni-datetime-picker/uni-datetime-picker"
+    "uni-datetime-picker": "../../components/uni-datetime-picker/uni-datetime-picker",
+    "uni-nav-bar": "../../components/uni-nav-bar/components/uni-nav-bar/uni-nav-bar",
+    "uni-drawer": "../../components/uni-drawer/components/uni-drawer/uni-drawer"
   }
 }
