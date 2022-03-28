@@ -26,11 +26,15 @@ const _sfc_main = {
     for (let i = 0; i < props.dataList.length; i++) {
       isOpen.value[i] = false;
     }
+    const logaaa = (index) => {
+      console.log(index);
+    };
     return {
       itemMore,
       isOpen,
       filterTodos,
-      iszhuan
+      iszhuan,
+      logaaa
     };
   }
 };
@@ -65,7 +69,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
           });
         })
       } : {}, {
-        j: item.id
+        j: item.id,
+        k: common_vendor.o(($event) => $setup.logaaa(item.id), item.id)
       });
     })
   } : {

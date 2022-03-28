@@ -34,6 +34,7 @@ const _sfc_main = {
     const active = common_vendor.ref(0);
     const active2 = common_vendor.ref(0);
     const isHeight = common_vendor.ref(true);
+    const checked = common_vendor.ref(false);
     let myDate = new Date();
     let hours = myDate.getHours();
     let minutes = myDate.getMinutes();
@@ -94,10 +95,10 @@ const _sfc_main = {
     const isInput = common_vendor.ref(false);
     const iptBottom = common_vendor.ref(0);
     const getFocus = (e) => {
-      iptBottom.value = e.detail.height - 80;
+      iptBottom.value = e.detail.height;
     };
     const outFocus = (e) => {
-      iptBottom.value = 0;
+      iptBottom.value = 85;
     };
     const isSheet = common_vendor.ref(false);
     const isSortSheet = common_vendor.ref(false);
@@ -119,6 +120,9 @@ const _sfc_main = {
     const sureTime = () => {
       isSheet.value = false;
       isTime.value = true;
+    };
+    const onChangeChecked = ({ detail }) => {
+      checked.value = detail;
     };
     const submitTodo = (e) => {
       e.preventDefault();
@@ -192,13 +196,16 @@ const _sfc_main = {
       closeTime,
       sureTime,
       isTime,
-      isHeight
+      isHeight,
+      checked,
+      onChangeChecked
     };
   },
   components: { Todolist, AddTodo, uniDatetimePicker, uniNavBar, uniDrawer }
 };
 if (!Array) {
   const _component_uni_nav_bar = common_vendor.resolveComponent("uni-nav-bar");
+  const _component_van_switch = common_vendor.resolveComponent("van-switch");
   const _component_uni_drawer = common_vendor.resolveComponent("uni-drawer");
   const _component_van_notify = common_vendor.resolveComponent("van-notify");
   const _component_todolist = common_vendor.resolveComponent("todolist");
@@ -209,7 +216,7 @@ if (!Array) {
   const _component_van_action_sheet = common_vendor.resolveComponent("van-action-sheet");
   const _component_van_field = common_vendor.resolveComponent("van-field");
   const _component_van_overlay = common_vendor.resolveComponent("van-overlay");
-  (_component_uni_nav_bar + _component_uni_drawer + _component_van_notify + _component_todolist + _component_van_tab + _component_van_tabs + _component_van_datetime_picker + _easycom_uni_datetime_picker2 + _component_van_action_sheet + _component_van_field + _component_van_overlay)();
+  (_component_uni_nav_bar + _component_van_switch + _component_uni_drawer + _component_van_notify + _component_todolist + _component_van_tab + _component_van_tabs + _component_van_datetime_picker + _easycom_uni_datetime_picker2 + _component_van_action_sheet + _component_van_field + _component_van_overlay)();
 }
 const _easycom_uni_datetime_picker = () => "../../components/uni-datetime-picker/uni-datetime-picker.js";
 if (!Math) {
@@ -222,50 +229,57 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       statusBar: true,
       title: "\u4E8B\u9879\u6E05\u5355"
     }),
-    c: common_vendor.o(($event) => $setup.isHeight = !$setup.isHeight),
-    d: $setup.isHeight ? 1 : "",
-    e: !$setup.isHeight ? 1 : "",
-    f: common_vendor.sr("showRight", "7ef3e360-1"),
-    g: common_vendor.p({
-      ["left-icon"]: "left",
-      mode: "left"
+    c: common_vendor.o($setup.onChangeChecked),
+    d: common_vendor.p({
+      checked: $setup.checked
     }),
-    h: common_vendor.p({
+    e: !$setup.isHeight ? 1 : "",
+    f: $setup.isHeight ? 1 : "",
+    g: common_vendor.o(($event) => $setup.isHeight = !$setup.isHeight),
+    h: $setup.isHeight ? 1 : "",
+    i: !$setup.isHeight ? 1 : "",
+    j: common_vendor.sr("showRight", "7ef3e360-1"),
+    k: common_vendor.p({
+      ["left-icon"]: "left",
+      mode: "left",
+      width: 300
+    }),
+    l: common_vendor.p({
       dataList: $setup.allTodoList
     }),
-    i: common_vendor.p({
+    m: common_vendor.p({
       title: "\u5168\u90E8"
     }),
-    j: common_vendor.f($setup.todoSort, (item, k0, i0) => {
+    n: common_vendor.f($setup.todoSort, (item, k0, i0) => {
       return {
-        a: "7ef3e360-7-" + i0 + "," + ("7ef3e360-6-" + i0),
+        a: "7ef3e360-8-" + i0 + "," + ("7ef3e360-7-" + i0),
         b: common_vendor.p({
           dataList: $setup.sortTodList,
           sort: item
         }),
         c: item,
-        d: "7ef3e360-6-" + i0 + ",7ef3e360-3",
+        d: "7ef3e360-7-" + i0 + ",7ef3e360-4",
         e: common_vendor.p({
           title: item
         })
       };
     }),
-    k: common_vendor.o($setup.onChange),
-    l: common_vendor.p({
+    o: common_vendor.o($setup.onChange),
+    p: common_vendor.p({
       active: $setup.active,
       sticky: true,
       animated: true,
       swipeable: true
     }),
-    m: common_vendor.o(($event) => $setup.isInput = true),
-    n: common_vendor.o((...args) => $setup.closeTime && $setup.closeTime(...args)),
-    o: common_vendor.o((...args) => $setup.sureTime && $setup.sureTime(...args)),
-    p: common_vendor.t($setup.dianTitle),
-    q: common_vendor.p({
+    q: common_vendor.o(($event) => $setup.isInput = true),
+    r: common_vendor.o((...args) => $setup.closeTime && $setup.closeTime(...args)),
+    s: common_vendor.o((...args) => $setup.sureTime && $setup.sureTime(...args)),
+    t: common_vendor.t($setup.dianTitle),
+    v: common_vendor.p({
       title: "\u5168\u5929"
     }),
-    r: common_vendor.o($setup.onInput),
-    s: common_vendor.p({
+    w: common_vendor.o($setup.onInput),
+    x: common_vendor.p({
       type: "time",
       value: $setup.todoValue.currentDate,
       title: $setup.dianTitle,
@@ -274,97 +288,97 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       confirmButtonText: "",
       cancelButtonText: ""
     }),
-    t: common_vendor.p({
+    y: common_vendor.p({
       title: "\u65F6\u95F4\u70B9"
     }),
-    v: common_vendor.o(($event) => $setup.todoValue.datetimerange = ""),
-    w: common_vendor.o(($event) => $setup.todoValue.datetimerange = $event),
-    x: common_vendor.p({
+    z: common_vendor.o(($event) => $setup.todoValue.datetimerange = ""),
+    A: common_vendor.o(($event) => $setup.todoValue.datetimerange = $event),
+    B: common_vendor.p({
       type: "datetimerange",
       rangeSeparator: "\u81F3",
       modelValue: $setup.todoValue.datetimerange
     }),
-    y: common_vendor.p({
+    C: common_vendor.p({
       title: "\u65F6\u95F4\u6BB5"
     }),
-    z: common_vendor.o($setup.onChange2),
-    A: common_vendor.p({
+    D: common_vendor.o($setup.onChange2),
+    E: common_vendor.p({
       active: $setup.active2
     }),
-    B: common_vendor.o(($event) => $setup.isSheet = false),
-    C: common_vendor.p({
+    F: common_vendor.o(($event) => $setup.isSheet = false),
+    G: common_vendor.p({
       show: $setup.isSheet,
       closeOnClickOverlay: true,
       zIndex: "200"
     }),
-    D: common_vendor.f($setup.todoSort, (item, k0, i0) => {
+    H: common_vendor.f($setup.todoSort, (item, k0, i0) => {
       return {
         a: common_vendor.t(item),
         b: item,
         c: common_vendor.o(($event) => $setup.selectSort(item))
       };
     }),
-    E: common_vendor.o(($event) => $setup.isSortSheet = false),
-    F: common_vendor.p({
+    I: common_vendor.o(($event) => $setup.isSortSheet = false),
+    J: common_vendor.p({
       show: $setup.isSortSheet,
       closeOnClickOverlay: true,
       zIndex: "200"
     }),
-    G: $setup.todoValue.importIndex === 0
+    K: $setup.todoValue.importIndex === 0
   }, $setup.todoValue.importIndex === 0 ? {} : {}, {
-    H: common_vendor.o(($event) => $setup.selectImport(0)),
-    I: $setup.todoValue.importIndex === 1
+    L: common_vendor.o(($event) => $setup.selectImport(0)),
+    M: $setup.todoValue.importIndex === 1
   }, $setup.todoValue.importIndex === 1 ? {} : {}, {
-    J: common_vendor.o(($event) => $setup.selectImport(1)),
-    K: $setup.todoValue.importIndex === 2
+    N: common_vendor.o(($event) => $setup.selectImport(1)),
+    O: $setup.todoValue.importIndex === 2
   }, $setup.todoValue.importIndex === 2 ? {} : {}, {
-    L: common_vendor.o(($event) => $setup.selectImport(2)),
-    M: $setup.todoValue.importIndex === 3
+    P: common_vendor.o(($event) => $setup.selectImport(2)),
+    Q: $setup.todoValue.importIndex === 3
   }, $setup.todoValue.importIndex === 3 ? {} : {}, {
-    N: common_vendor.o(($event) => $setup.selectImport(3)),
-    O: common_vendor.o(($event) => $setup.isImportSheet = false),
-    P: common_vendor.p({
+    R: common_vendor.o(($event) => $setup.selectImport(3)),
+    S: common_vendor.o(($event) => $setup.isImportSheet = false),
+    T: common_vendor.p({
       show: $setup.isImportSheet,
       closeOnClickOverlay: true,
       zIndex: "200"
     }),
-    Q: $setup.isInput
+    U: $setup.isInput
   }, $setup.isInput ? common_vendor.e({
-    R: $setup.isTime
+    V: $setup.isTime
   }, $setup.isTime ? common_vendor.e({
-    S: $setup.active2 == 0
+    W: $setup.active2 == 0
   }, $setup.active2 == 0 ? {
-    T: common_vendor.t($setup.dianTitle)
+    X: common_vendor.t($setup.dianTitle)
   } : {}, {
-    U: $setup.active2 == 1
+    Y: $setup.active2 == 1
   }, $setup.active2 == 1 ? {
-    V: common_vendor.t($setup.dianTitle),
-    W: common_vendor.t($setup.todoValue.currentDate)
+    Z: common_vendor.t($setup.dianTitle),
+    aa: common_vendor.t($setup.todoValue.currentDate)
   } : {}, {
-    X: $setup.active2 == 2 && $setup.todoValue.datetimerange.length != 0 && $setup.todoValue.datetimerange[0].substr(-8) == "00:00:00"
+    ab: $setup.active2 == 2 && $setup.todoValue.datetimerange.length != 0 && $setup.todoValue.datetimerange[0].substr(-8) == "00:00:00"
   }, $setup.active2 == 2 && $setup.todoValue.datetimerange.length != 0 && $setup.todoValue.datetimerange[0].substr(-8) == "00:00:00" ? {
-    Y: common_vendor.t($setup.todoValue.datetimerange[0].substr(0, 10)),
-    Z: common_vendor.t($setup.todoValue.datetimerange[1].substr(0, 10))
+    ac: common_vendor.t($setup.todoValue.datetimerange[0].substr(0, 10)),
+    ad: common_vendor.t($setup.todoValue.datetimerange[1].substr(0, 10))
   } : {}, {
-    aa: $setup.active2 == 2 && $setup.todoValue.datetimerange.length != 0 && $setup.todoValue.datetimerange[0].substr(-8) != "00:00:00"
+    ae: $setup.active2 == 2 && $setup.todoValue.datetimerange.length != 0 && $setup.todoValue.datetimerange[0].substr(-8) != "00:00:00"
   }, $setup.active2 == 2 && $setup.todoValue.datetimerange.length != 0 && $setup.todoValue.datetimerange[0].substr(-8) != "00:00:00" ? {
-    ab: common_vendor.t($setup.todoValue.datetimerange[0]),
-    ac: common_vendor.t($setup.todoValue.datetimerange[1])
+    af: common_vendor.t($setup.todoValue.datetimerange[0]),
+    ag: common_vendor.t($setup.todoValue.datetimerange[1])
   } : {}) : {}, {
-    ad: common_vendor.t($setup.todoValue.sort),
-    ae: $setup.todoValue.importIndex == 0
+    ah: common_vendor.t($setup.todoValue.sort),
+    ai: $setup.todoValue.importIndex == 0
   }, $setup.todoValue.importIndex == 0 ? {} : {}, {
-    af: $setup.todoValue.importIndex == 1
+    aj: $setup.todoValue.importIndex == 1
   }, $setup.todoValue.importIndex == 1 ? {} : {}, {
-    ag: $setup.todoValue.importIndex == 2
+    ak: $setup.todoValue.importIndex == 2
   }, $setup.todoValue.importIndex == 2 ? {} : {}, {
-    ah: $setup.todoValue.importIndex == 3
+    al: $setup.todoValue.importIndex == 3
   }, $setup.todoValue.importIndex == 3 ? {} : {}, {
-    ai: common_vendor.o(($event) => $setup.submitTodo($event)),
-    aj: common_vendor.o($setup.getFocus),
-    ak: common_vendor.o($setup.outFocus),
-    al: common_vendor.o(($event) => $setup.todoValue.title = $event.detail),
-    am: common_vendor.p({
+    am: common_vendor.o(($event) => $setup.submitTodo($event)),
+    an: common_vendor.o($setup.getFocus),
+    ao: common_vendor.o($setup.outFocus),
+    ap: common_vendor.o(($event) => $setup.todoValue.title = $event.detail),
+    aq: common_vendor.p({
       type: "text",
       focus: true,
       border: true,
@@ -373,13 +387,13 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       value: $setup.todoValue.title,
       placeholder: "\u628A\u4E8B\u60C5\u8BB0\u5F55\u4E0B\u6765~"
     }),
-    an: common_vendor.o(($event) => $setup.isSheet = true),
-    ao: common_vendor.o(($event) => $setup.isSortSheet = true),
-    ap: common_vendor.o(($event) => $setup.isImportSheet = true),
-    aq: $setup.iptBottom + "px"
+    ar: common_vendor.o(($event) => $setup.isSheet = true),
+    as: common_vendor.o(($event) => $setup.isSortSheet = true),
+    at: common_vendor.o(($event) => $setup.isImportSheet = true),
+    av: $setup.iptBottom + "px"
   }) : {}, {
-    ar: common_vendor.o(($event) => $setup.isInput = false),
-    as: common_vendor.p({
+    aw: common_vendor.o(($event) => $setup.isInput = false),
+    ax: common_vendor.p({
       show: $setup.isInput,
       zIndex: "50"
     })

@@ -54,26 +54,34 @@
 			"van-datetime-picker": "./wxcomponents/vant/dist/datetime-picker/index",
 			"van-notify": "./wxcomponents/vant/dist/notify/index",
 			"van-collapse": "./wxcomponents/vant/dist/collapse/index",
-  			"van-collapse-item": "./wxcomponents/vant/dist/collapse-item/index"
+  			"van-collapse-item": "./wxcomponents/vant/dist/collapse-item/index",
+			"van-switch": "./wxcomponents/vant/dist/switch/index"
 		}
 	},
 	"tabBar": {
 		"color": "#7A7E83",
-		"selectedColor": "#3cc51f",
+		"selectedColor": "#94744c",
 		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
+		"blurEffect": "light",
+		// "backgroundColor": "#ffffff",
 		"list": [
 			{
 				"pagePath": "pages/index/index",
-				"text": "事项"
+				"text": "事项",
+				"iconPath": "static/tabar/写报告2.png",
+				"selectedIconPath": "static/tabar/写报告.png" 
 			},
 			{
 				"pagePath": "pages/moreApp/index",
-				"text": "应用"
+				"text": "应用",
+				"iconPath": "static/tabar/应用.png",
+				"selectedIconPath": "static/tabar/应用2.png" 
 			},
 			{
 				"pagePath": "pages/user/user",
-				"text": "我的"
+				"text": "我的",
+				"iconPath": "static/tabar/我的2.png",
+				"selectedIconPath": "static/tabar/我的.png" 
 			}
 		]
 	}

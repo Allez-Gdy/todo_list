@@ -32,11 +32,10 @@ export default {
     ])
     const todoSort = ['生活', '学习', '工作'];
 
-
     const active = ref(0); // 主页面tab 索引
     const active2 = ref(0); // 选择时间 tab 索引
     const isHeight = ref(true);
-
+    const checked = ref(false)
     let myDate = new Date();
     let hours = myDate.getHours();
     let minutes = myDate.getMinutes();
@@ -113,10 +112,10 @@ export default {
     // input 距离底部距离
     const iptBottom = ref(0) 
     const getFocus = (e)=> {
-      iptBottom.value = e.detail.height - 80;
+      iptBottom.value = e.detail.height;
     }
     const outFocus =(e)=> {
-      iptBottom.value = 0
+      iptBottom.value = 85
     }
     // 动作面板
     const isSheet = ref(false); 
@@ -146,6 +145,11 @@ export default {
     const sureTime = ()=> {
       isSheet.value = false;
       isTime.value = true;
+    }
+
+    //Checked
+    const onChangeChecked = ({ detail })=> {
+      checked.value = detail
     }
 
     // 提交
@@ -226,7 +230,9 @@ export default {
         closeTime,
         sureTime,
         isTime,
-        isHeight
+        isHeight,
+        checked,
+        onChangeChecked
     };
     /*1、通过用户id 查询所有当前用户的todolist*/
     
@@ -249,45 +255,51 @@ export default {
     :statusBar="true"
     title="事项清单">
     <template v-slot:left>
-      <span class="iconfont icon-feiji" style="margin-left: 20px;"></span>
+      <span class="iconfont icon-liebiaomoshi_kuai" style="margin-left: 20px;"></span>
     </template>
   </uni-nav-bar>
-  <uni-drawer left-icon="left" ref="showRight" mode="left">
+  <uni-drawer left-icon="left" ref="showRight" mode="left" :width="300">
     <div class="status-nav-h"></div>
     <div class="status-nav-h"></div>
     <div class="drawer" style="width: 100%;">
       <ul class="drawer-list">
-        <li class="drawer-item">
-          <span style="color:#999;">按分类展示</span>
+        <li class="drawer-item flex" style="justify-content: space-between;align-items: center;">
+          <span>隐藏已完成</span>
+          <van-switch :checked="checked" @change="onChangeChecked" />
         </li>
         <li class="drawer-item">
-          <span class="iconfont icon-feiji drawer-icon"></span>
+          <span style="color:#999; font-size: 14px;">按分类展示</span>
+        </li>
+        <li class="drawer-item">
+          <span class="iconfont icon-fenlei1 drawer-icon"></span>
           分类管理  
         </li>
         <li class="drawer-item">
-          <span style="color:#999;">功能</span>
+          <span style="color:#999; font-size: 12px;">功能</span>
         </li>
         <li class="drawer-item">
-          <span class="iconfont icon-feiji drawer-icon"></span>
+          <span class="iconfont icon-sousuotianchong drawer-icon"></span>
           搜索
         </li>
-        <li class="drawer-item" @click="isHeight=!isHeight" style="display: flex;flex-wrap: wrap;">
-          <span class="iconfont icon-feiji drawer-icon"></span>
-          <span style="width: 100px;">归档</span><br>
-          
+        <li class="drawer-item flex" @click="isHeight=!isHeight" style="display: flex;flex-wrap: wrap;">
+          <span class="iconfont icon-guidang drawer-icon"></span>
+          <span style="width: 100px; flex: 1;">归档</span>
+          <span class="iconfont icon-xuanzeqizhankai"
+            :class="{'open': !isHeight,'close': isHeight}"
+          ></span>
         </li>
         <li :class="{'h_0': isHeight,'h_80': !isHeight}" class="guidang">
           <div class="guidang-item">
-            <span class="iconfont icon-feiji" style="margin-right: 15px;"></span>
+            <span class="iconfont icon-cuowu" style="margin-right: 15px;"></span>
             <span>未完成</span>
             <span class="guidang-num">1</span></div>
           <div class="guidang-item">
-            <span class="iconfont icon-feiji" style="margin-right: 15px;"></span>
+            <span class="iconfont icon-yidongduan_yanzhirenwuyiwancheng" style="margin-right: 15px;"></span>
             <span>已完成</span>
             <span class="guidang-num">10</span></div>
         </li>
         <li class="drawer-item">
-          <span class="iconfont icon-feiji drawer-icon"></span>
+          <span class="iconfont icon-tongji drawer-icon"></span>
           统计
         </li>
       </ul>
@@ -318,7 +330,7 @@ export default {
       </van-tab>
     </van-tabs>
     <!-- 添加按钮 -->
-    <div class="add-btn" @click="isInput = true">+</div>
+    <div class="add-btn" @click="isInput = true"><span class="iconfont icon-jia"></span></div>
     <!-- 时间动作面板 -->
     <van-action-sheet 
       :show="isSheet" 
@@ -460,6 +472,16 @@ export default {
 </template>
 
 <style lang="less">
+.close {
+  display: inline-block;
+  transform: rotate(0deg);
+  transition: all .5s;
+}
+.open {
+  display: inline-block;
+  transform: rotate(180deg);
+  transition: all .5s;
+}
 .h_0 {
   height: 0;
   overflow: hidden;

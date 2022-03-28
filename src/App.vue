@@ -17,4 +17,7 @@ export default {
 /*每个页面公共css */
 @import "./assets/style/global.css";
 @import "./wxcomponents/vant/dist/common/index.wxss";
+page {
+  background-color: #f5f5ff;
+}
 </style>

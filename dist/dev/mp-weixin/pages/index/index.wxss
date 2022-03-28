@@ -1,3 +1,13 @@
+.close {
+  display: inline-block;
+  transform: rotate(0deg);
+  transition: all 0.5s;
+}
+.open {
+  display: inline-block;
+  transform: rotate(180deg);
+  transition: all 0.5s;
+}
 .h_0 {
   height: 0;
   overflow: hidden;

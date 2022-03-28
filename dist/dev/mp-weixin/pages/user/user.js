@@ -1,10 +1,10 @@
 "use strict";
 var common_vendor = require("../../common/vendor.js");
+const UserTop = () => "./components/userTop.js";
 const _sfc_main = {
-  data() {
-    return {};
+  setup() {
   },
-  methods: {}
+  components: { UserTop }
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {};
