@@ -4,6 +4,7 @@
 .finish {
   text-decoration: line-through;
   font-style: italic;
+  color: #666;
 }
 .close {
   display: inline-block;
@@ -12,7 +13,7 @@
 }
 .open {
   display: inline-block;
-  transform: rotate(180deg);
+  transform: rotate(-180deg);
   transition: all 0.5s;
 }
 .todo-item {
@@ -42,9 +43,9 @@
   font-size: 12px;
   color: #909090;
 }
-.todo-item:last-child {
-  margin-bottom: 50rpx;
-}
+/*.todo-item:last-child {
+    margin-bottom: 50rpx;
+  }*/
 .sub-list {
   padding-left: 100rpx;
 }

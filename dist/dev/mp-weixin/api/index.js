@@ -1,25 +1,115 @@
 "use strict";
-var common_vendor = require("../common/vendor.js");
-const service = common_vendor.axios.create({
-  baseURL: "http://localhost:3300/"
-});
-service.interceptors.request.use((config) => {
-  let token = localStorage.getItem("todo-token");
-  if (token) {
-    config.headers.authorization = token;
-  } else {
-    let url = config.url.split("/");
-    let apiUrl = url[url.length - 2];
-    let pageUrl = url[url.length - 1];
-    if (apiUrl === "email" || apiUrl === "file" || pageUrl === "login" || pageUrl === "register") {
-      console.log("\u5141\u8BB8\u4E0D\u643A\u5E26token\u901A\u8FC7\u8DEF\u7531");
-    } else {
-      common_vendor.index.navigateTo({
-        url: "/pages/login/login"
-      });
-    }
+var utils_request = require("../utils/request.js");
+let request = new utils_request.Request().http;
+var api = {
+  judgeCode: function(data) {
+    return request({
+      url: "/email/judgecode",
+      method: "POST",
+      data
+    });
+  },
+  getemailcode: function(data) {
+    console.log(data);
+    return request({
+      url: "/email/getemailcode",
+      method: "GET",
+      data
+    });
+  },
+  register: function(data) {
+    return request({
+      url: "/user/register",
+      method: "POST",
+      data
+    });
+  },
+  login: function(data) {
+    return request({
+      url: "/user/login",
+      method: "POST",
+      data
+    });
+  },
+  findAll: function(data) {
+    return request({
+      url: "/matter/all",
+      method: "POST",
+      data
+    });
+  },
+  findNoFinish: function(data) {
+    return request({
+      url: "/matter/allnofinish",
+      method: "POST",
+      data
+    });
+  },
+  findFinish: function(data) {
+    return request({
+      url: "/matter/allfinish",
+      method: "POST",
+      data
+    });
+  },
+  findSort: function(data) {
+    return request({
+      url: "/matter/allsort",
+      method: "POST",
+      data
+    });
+  },
+  findSubtodo: function(data) {
+    return request({
+      url: "/matter/getsubtodo",
+      method: "POST",
+      data
+    });
+  },
+  addTodo: function(data) {
+    return request({
+      url: "/matter/add",
+      method: "POST",
+      data
+    });
+  },
+  updateTodo: function(data) {
+    return request({
+      url: "/matter/updatetodo",
+      method: "POST",
+      data,
+      Headers: {
+        "Content-Type": "application/json"
+      }
+    });
+  },
+  insterSubtodo: function(data) {
+    return request({
+      url: "/matter/insterSubtodo",
+      method: "POST",
+      data
+    });
+  },
+  deleteSubTodo: function(data) {
+    return request({
+      url: "/matter/deletesubtodo",
+      method: "GET",
+      data
+    });
+  },
+  updataTodoStatus: function(data) {
+    return request({
+      url: "/matter/updataTodoStatus",
+      method: "POST",
+      data
+    });
+  },
+  updataSubTodoStatus: function(data) {
+    return request({
+      url: "/matter/updateSubTodoStatus",
+      method: "POST",
+      data
+    });
   }
-  return config;
-}, (err) => {
-  return Promise.reject(err);
-});
+};
+exports.api = api;

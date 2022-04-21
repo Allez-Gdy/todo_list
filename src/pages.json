@@ -3,8 +3,14 @@
 		{
 			"path": "pages/login/login",
 			"style": {
-				"navigationBarTitleText": "登录",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/signUp/signUp",
+			"style": {
+				"navigationBarTitleText": "注册",
+				
 			}
 		},
 		{
@@ -55,7 +61,10 @@
 			"van-notify": "./wxcomponents/vant/dist/notify/index",
 			"van-collapse": "./wxcomponents/vant/dist/collapse/index",
   			"van-collapse-item": "./wxcomponents/vant/dist/collapse-item/index",
-			"van-switch": "./wxcomponents/vant/dist/switch/index"
+			"van-switch": "./wxcomponents/vant/dist/switch/index",
+			"van-swipe-cell": "./wxcomponents/vant/dist/swipe-cell/index",
+			"van-popup": "./wxcomponents/vant/dist/popup/index",
+			"van-dialog": "./wxcomponents/vant/dist/dialog/index"
 		}
 	},
 	"tabBar": {

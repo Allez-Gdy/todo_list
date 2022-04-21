@@ -1,77 +1,122 @@
-.close {
+.subtodoItem.data-v-1badc801 {
+  display: flex;
+  align-items: center;
+}
+.subtitle.data-v-1badc801 {
+  flex: 1;
+  margin: 0 15px;
+}
+.save.data-v-1badc801 {
+  margin: 0 20px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50px;
+  text-align: center;
+}
+.set-todo.data-v-1badc801 {
+  height: 100%;
+}
+.set-todo .set-top.data-v-1badc801 {
+  display: flex;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 10px 15px;
+}
+.set-todo .set-top .set-title.data-v-1badc801 {
+  margin-left: 13px;
+}
+.set-todo .set-mid.data-v-1badc801 {
+  padding: 0 15px;
+}
+.set-todo .set-bottom.data-v-1badc801 {
+  margin: 20px 0;
+  display: flex;
+  width: 100%;
+}
+.set-todo .set-bottom .set-btn.data-v-1badc801 {
+  border-radius: 15px;
+  flex: 1;
+  text-align: center;
+  height: 35px;
+  line-height: 35px;
+  background-color: #cce6ff;
+  margin: 0 10px;
+  width: 110px;
+}
+.close.data-v-1badc801 {
   display: inline-block;
   transform: rotate(0deg);
   transition: all 0.5s;
 }
-.open {
+.open.data-v-1badc801 {
   display: inline-block;
   transform: rotate(180deg);
   transition: all 0.5s;
 }
-.h_0 {
+.h_0.data-v-1badc801 {
   height: 0;
   overflow: hidden;
   transition: all 0.5s;
 }
-.h_80 {
+.h_80.data-v-1badc801 {
   height: 80px;
   overflow: hidden;
   transition: all 0.5s;
 }
-.guidang {
+.guidang.data-v-1badc801 {
   width: 100%;
   padding-left: 40px;
 }
-.guidang .guidang-item {
+.guidang .guidang-item.data-v-1badc801 {
   height: 40px;
   line-height: 40px;
 }
-.guidang .guidang-item .guidang-num {
+.guidang .guidang-item .guidang-num.data-v-1badc801 {
   color: #539dff;
   margin-left: 50px;
   display: inline-block;
 }
-.status-nav-h {
+.status-nav-h.data-v-1badc801 {
   height: var(--status-bar-height);
 }
-.drawer {
+.drawer.data-v-1badc801 {
   height: 95vh;
   overflow: auto;
 }
-.drawer .drawer-list .drawer-item {
+.drawer .drawer-list .drawer-item.data-v-1badc801 {
   height: 50px;
   display: flex;
   align-items: center;
   padding: 0 15px;
 }
-.drawer .drawer-list .drawer-item .drawer-icon {
+.drawer .drawer-list .drawer-item .drawer-icon.data-v-1badc801 {
   margin-right: 15px;
 }
-.show-todo {
+.show-todo.data-v-1badc801 {
   position: absolute;
   bottom: 100px;
   z-index: 200;
   left: 15px;
 }
-.show-todo .show-todo-item {
+.show-todo .show-todo-item.data-v-1badc801 {
   margin-top: 15px;
 }
-.show-todo .show-todo-item .item-span {
+.show-todo .show-todo-item .item-span.data-v-1badc801 {
   background-color: #f3f3f3;
   padding: 5px 15px;
   border-radius: 50px;
   font-size: 13px;
   color: #555555;
 }
-.sort-list {
+.sort-list.data-v-1badc801 {
   display: flex;
   flex-wrap: wrap;
   padding: 10px;
   justify-content: space-around;
   align-items: center;
 }
-.sort-list .sort-item {
-  background-color: antiquewhite;
+.sort-list .sort-item.data-v-1badc801 {
+  background-color: #d7e7fa;
   width: 80px;
   height: 80px;
   margin-bottom: 10px;
@@ -79,43 +124,44 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 15px;
 }
-.imp-list {
+.imp-list.data-v-1badc801 {
   padding: 10px 20px;
 }
-.imp-list .imp-item {
+.imp-list .imp-item.data-v-1badc801 {
   height: 50px;
   line-height: 50px;
   display: flex;
   padding: 0 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
-.imp-list .imp-item .imp-tit {
+.imp-list .imp-item .imp-tit.data-v-1badc801 {
   flex: 1;
 }
-van-tabs {
+van-tabs.data-v-1badc801 {
   height: 100% !important;
 }
-.content {
+.content.data-v-1badc801 {
   height: 100vh;
   overflow-y: auto;
   position: relative;
 }
-.h {
+.h.data-v-1badc801 {
   height: 93vh;
 }
-.t {
+.t.data-v-1badc801 {
   height: 70vh;
 }
-.select-items {
+.select-items.data-v-1badc801 {
   padding: 15px 20px;
   box-sizing: border-box;
 }
-.select-items .time-btn {
+.select-items .time-btn.data-v-1badc801 {
   display: flex;
   justify-content: space-between;
 }
-.add-btn {
+.add-btn.data-v-1badc801 {
   border-radius: 50%;
   position: absolute;
   right: 30px;
@@ -128,24 +174,24 @@ van-tabs {
   color: #fff;
   background-color: #7ec1ff;
 }
-.add-input {
+.add-input.data-v-1badc801 {
   z-index: 100;
   position: absolute;
   bottom: 0;
   height: 80px;
   width: 100%;
 }
-.add-input .add-set {
+.add-input .add-set.data-v-1badc801 {
   display: flex;
   background-color: #fff;
   height: 35px;
   align-items: center;
 }
-.add-input .add-set .set-item {
+.add-input .add-set .set-item.data-v-1badc801 {
   margin: 0 15px;
   font-size: 20px;
 }
-.add-input .submit-todo {
+.add-input .submit-todo.data-v-1badc801 {
   position: absolute;
   z-index: 150;
   right: 30px;

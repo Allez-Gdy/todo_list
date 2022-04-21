@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3207396 */
-  src: url('iconfont.woff2?t=1648474165869') format('woff2'),
-       url('iconfont.woff?t=1648474165869') format('woff'),
-       url('iconfont.ttf?t=1648474165869') format('truetype');
+  src: url('iconfont.woff2?t=1650376880722') format('woff2'),
+       url('iconfont.woff?t=1650376880722') format('woff'),
+       url('iconfont.ttf?t=1650376880722') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,42 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-cuowuguanbiquxiao-xianxingyuankuang:before {
+  content: "\e8e7";
+}
+
+.icon-a-shuizhipingjia:before {
+  content: "\e7ec";
+}
+
+.icon-a-shuizhipingjia1:before {
+  content: "\e7ed";
+}
+
+.icon-a-shuizhipingjia2:before {
+  content: "\e7ee";
+}
+
+.icon-a-shuizhipingjia3:before {
+  content: "\e7ef";
+}
+
+.icon-xiebaogao:before {
+  content: "\e674";
+}
+
+.icon-xiebaogao1:before {
+  content: "\e6a4";
+}
+
+.icon-xinzengdaiban:before {
+  content: "\e602";
+}
+
+.icon-daibanshixiang1:before {
+  content: "\e762";
 }
 
 .icon-guidang:before {

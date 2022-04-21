@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/login/login",
+    "pages/signUp/signUp",
     "pages/index/index",
     "pages/moreApp/index",
     "pages/user/user"
@@ -20,7 +21,10 @@
     "van-notify": "./wxcomponents/vant/dist/notify/index",
     "van-collapse": "./wxcomponents/vant/dist/collapse/index",
     "van-collapse-item": "./wxcomponents/vant/dist/collapse-item/index",
-    "van-switch": "./wxcomponents/vant/dist/switch/index"
+    "van-switch": "./wxcomponents/vant/dist/switch/index",
+    "van-swipe-cell": "./wxcomponents/vant/dist/swipe-cell/index",
+    "van-popup": "./wxcomponents/vant/dist/popup/index",
+    "van-dialog": "./wxcomponents/vant/dist/dialog/index"
   },
   "window": {
     "navigationBarTextStyle": "black",
@@ -55,5 +59,6 @@
         "selectedIconPath": "static/tabar/我的.png"
       }
     ]
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }

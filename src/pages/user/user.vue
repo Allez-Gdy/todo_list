@@ -1,19 +1,48 @@
-<script>
+<script setup>
 import UserTop from "./components/userTop.vue"
-export default {
-  setup() {
+import Dialog from '../../wxcomponents/vant/dist/dialog/dialog';
 
-  },
-  components: { UserTop }
+import { ref } from "vue";
+const username = ref('');
+const introduction = ref('');
+uni.getStorage({
+  key: "username",
+  success: function (res) {
+    console.log(res.data);
+    username.value = res.data;
+  }
+})
+uni.getStorage({
+  key: "uid",
+  success: function (res) {
+    console.log(res.data);
+    introduction.value = res.data
+  }
+})
+
+const loginout = ()=> {
+  Dialog.confirm({
+  message: '您确认退出吗？',
+  })
+  .then(() => {
+    uni.clearStorage();
+    uni.reLaunch({
+      url: '/pages/login/login'
+    });
+  })
+  .catch(() => {
+    return
+  });
 }
 </script>
 <template>
   <div class="user-info">
+    <van-dialog id="van-dialog" />
     <div class="user-top">
       <div class="avatar"><img src="" alt=""></div>
       <div class="user-name">
-        <span style="font-size: 20px;">Single</span>
-        <span style="font-size: 15px;">用一句话介绍自己~</span>
+        <span style="font-size: 20px;">{{username}}</span>
+        <span style="font-size: 15px;">{{introduction}}</span>
       </div>
     </div>
     <ul class="user-fun-list">
@@ -38,7 +67,7 @@ export default {
         <span class="r user-icon iconfont icon-xuanzeqizhankai"></span>
       </li>
     </ul>
-    <div class="logout">退出登录</div>
+    <div class="logout" @click="loginout">退出登录</div>
   </div>
 </template>
 <style lang="less">

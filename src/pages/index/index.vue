@@ -1,252 +1,410 @@
 <script>
-import { reactive, ref, watch } from 'vue'
+  export default {
+    methods: {
+      showDrawer() {
+        this.$refs.showRight.open();
+      },
+    },
+    components: { Todolist, AddTodo, uniDatetimePicker, uniNavBar, uniDrawer }
+  }
+</script>
+<script setup>
+import { onBeforeMount, onMounted, reactive, ref, watch } from 'vue'
 import Todolist from './components/todolist.vue'
 import AddTodo from '../../components/addTodo.vue'
 import uniDatetimePicker from '../../components/uni-datetime-picker/uni-datetime-picker.vue'
 import uniNavBar from '../../components/uni-nav-bar/components/uni-nav-bar/uni-nav-bar.vue'
 import uniDrawer from '../../components/uni-drawer/components/uni-drawer/uni-drawer.vue'
-import Notify from '../../wxcomponents/vant/dist/notify/notify'
-export default {
-  methods: {
-    showDrawer() {
-      this.$refs.showRight.open();
-    },
-  },
-  setup() {
-    // 模拟数据
-    const allTodoList = reactive([
-      {id: 0, title: '吃饭', isFinish: true, sort: '生活',subTodo: [{id: 0, title: '子任务1',isFinish: false},{id: 1, title: '子任务1',isFinish: true}],uid: 0},
-      {id: 1, title: '睡觉', isFinish: false, sort: '生活',uid: 0},
-      {id: 2, title: '上课', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false},{id: 1, title: '子任务1',isFinish: false},{id: 2, title: '子任务1',isFinish: false}],uid: 0},
-      {id: 3, title: '写作业', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
-      {id: 3, title: '写作业', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
-      {id: 3, title: '写作业', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
-      {id: 3, title: '写作业', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
-      {id: 3, title: '写作业', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
-    ])
-    const sortTodList = reactive([
-      {id: 0, title: '吃饭1', isFinish: false, sort: '生活',subTodo: [{id: 0, title: '子任务1',isFinish: false},{id: 1, title: '子任务1',isFinish: false}],uid: 0},
-      {id: 1, title: '睡觉1', isFinish: false, sort: '生活',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
-      {id: 2, title: '上课1', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false},{id: 1, title: '子任务1',isFinish: false},{id: 2, title: '子任务1',isFinish: false}],uid: 0},
-      {id: 3, title: '写作业1', isFinish: false, sort: '学习',subTodo: [{id: 0, title: '子任务1',isFinish: false}],uid: 0},
-    ])
-    const todoSort = ['生活', '学习', '工作'];
+// import Notify from '../../wxcomponents/vant/dist/notify/notify'
+import api from '../../api/index'
 
-    const active = ref(0); // 主页面tab 索引
-    const active2 = ref(0); // 选择时间 tab 索引
-    const isHeight = ref(true);
-    const checked = ref(false)
-    let myDate = new Date();
-    let hours = myDate.getHours();
-    let minutes = myDate.getMinutes();
-    let month = myDate.getMonth()+1;
-    let date = myDate.getDate();
-    let day = myDate.getDay();
-    switch (day) {
-      case 1:
-        day = '一'
-        break;
-      case 2:
-        day = '二'
-        break;
-      case 3:
-        day = '三'
-        break;
-      case 4:
-        day = '四'
-        break;
-      case 5:
-        day = '五'
-        break;
-      case 6:
-        day = '六'
-        break;
-      case 0:
-        day = '日'
-        break;
-      default:
-        break;
-    }
+let uid = uni.getStorageSync('uid')
 
-    // 整体事项信息
-    const todoValue = reactive({
-      title: '',
-      currentDate: `${hours}:${minutes}`,
-      datetimerange: '',
-      sort: todoSort[0],
-      importIndex: 0
-    });
-    // 时间点标题
-    const dianTitle = ref(`${month}/${date}周${day}`)
-
-    // 拖动时间点触发
-    const onInput = (event) => {
-      todoValue.currentDate = event.detail
-    }
-    
-    watch(()=> todoValue.datetimerange,(val)=> {
-      todoValue.datetimerange = val
-    })
-
-    const onChange = function (event) {
-      // 切换主tabs 事件
-      if(event.detail.name !== 0 && event.detail.name !== todoSort.length + 1) {
-        todoValue.sort = todoSort[event.detail.name - 1];
-      }else {
-      }
-      console.log(todoValue.sort);
-    };
-    const onChange2 = function (event) {
-      // 切换时间tabs 事件
-      active2.value = event.detail.name
-      if(event.detail.name === 0) {
-        // 选择时间点
-        todoValue.datetimerange=''
-      }else if(event.detail.name === 1) {
-        // 选择范围时间
-        todoValue.currentDate=`${hours}:${minutes}`
-      }
-    };
-    
-    const isInput = ref(false);
-    // input 距离底部距离
-    const iptBottom = ref(0) 
-    const getFocus = (e)=> {
-      iptBottom.value = e.detail.height;
-    }
-    const outFocus =(e)=> {
-      iptBottom.value = 85
-    }
-    // 动作面板
-    const isSheet = ref(false); 
-    const isSortSheet = ref(false);
-    const isImportSheet = ref(false);
-
-    const selectImport = (index)=> {
-      todoValue.importIndex = index;
-      isImportSheet.value = false;
-      
-    }
-    const selectSort = (item)=> {
-      todoValue.sort = item;
-      isSortSheet.value = false;
-      let todoInput = uni.createSelectorQuery().select('#todo-input');
-      // todoInput.boundingClientRect((data)=>{
-      //     console.log(data)
-      // }).exec()
-    }
-
-    // 如果没有选择时间 那么就没有时间
-    let isTime = ref(false);
-    const closeTime = ()=> {
-      isSheet.value = false;
-      isTime.value = false;
-    }
-    const sureTime = ()=> {
-      isSheet.value = false;
-      isTime.value = true;
-    }
-
-    //Checked
-    const onChangeChecked = ({ detail })=> {
-      checked.value = detail
-    }
-
-    // 提交
-    const submitTodo = (e)=> {
-      e.preventDefault();
-      todoValue.title = todoValue.title.trim();
-      if(todoValue.title === '') {
-        Notify({ type: 'warning', message: '请输入内容' });
-        return
-      }
-      // 先判断选择是时间类型
-      if(active2.value === 0) {
-        // 全天
-        let oneDay = '';
-        if(isTime.value) {
-          oneDay = dianTitle.value;
-        }else {
-          oneDay = ''
-        }
-        let params = {
-          title: todoValue.title,
-          sort: todoValue.sort,
-          import: todoValue.importIndex,
-          oneDay: oneDay,
-          currentDate: '',
-          datetimerange: '' 
-        }
-        console.log(params);
-      }else if(active2.value === 1) {
-        // 时间点
-        let params = {
-          title: todoValue.title,
-          sort: todoValue.sort,
-          import: todoValue.importIndex,
-          oneDay: '',
-          currentDate: dianTitle.value + todoValue.currentDate,
-          datetimerange: '' 
-        }
-        console.log(params);
-      }else {
-        // 时间段
-        let params = {
-          title: todoValue.title,
-          sort: todoValue.sort,
-          import: todoValue.importIndex,
-          oneDay: '',
-          currentDate: '',
-          datetimerange: todoValue.datetimerange
-        }
-        console.log(params);
-      }
-      isInput.value = false;
-      todoValue.title = ''
-      todoValue.currentDate = `${hours}:${minutes}`
-    }
-
-    return {
-        active,
-        onChange,
-        allTodoList,
-        sortTodList,
-        todoSort,
-        getFocus,
-        iptBottom,
-        outFocus,
-        isInput,
-        todoValue,
-        isSheet,
-        onInput,
-        active2,
-        dianTitle,
-        onChange2,
-        submitTodo,
-        isSortSheet,
-        isImportSheet,
-        selectImport,
-        selectSort,
-        closeTime,
-        sureTime,
-        isTime,
-        isHeight,
-        checked,
-        onChangeChecked
-    };
-    /*1、通过用户id 查询所有当前用户的todolist*/
-    
-    /*2、查询当前用户所有的分类*/
-    /*3、用当前用户的分类去查询当前用户的所有todolist*/
-
-    /*
-      操作
-      1、页面初始化时用用户id 去请求所有属于这个用户的todolist
-      2、todolist有分类，点击不同的分类显示当前用户不同分类下的todolist
-    */
-  },
-  components: { Todolist, AddTodo, uniDatetimePicker, uniNavBar, uniDrawer }
+const finishList = ref([]);
+const noFinishList = ref([]);
+const allTodoList = ref([]);
+const todoSort = ref([]);
+const active = ref(0); // 主页面tab 索引
+const active2 = ref(0); // 选择时间 tab 索引
+const isHeight = ref(true)
+const checked = ref(false)
+const isPopup = ref(false);
+const setItemData = ref({});
+const isAddSub = ref(false);
+const addSubTitle = ref('')
+// 编辑todo
+const itemDateTime = ref('')
+let myDate = new Date();
+let hours = myDate.getHours();
+let minutes = myDate.getMinutes();
+let month = myDate.getMonth()+1;
+let date = myDate.getDate();
+let day = myDate.getDay();
+switch (day) {
+  case 1:
+    day = '一'
+    break;
+  case 2:
+    day = '二'
+    break;
+  case 3:
+    day = '三'
+    break;
+  case 4:
+    day = '四'
+    break;
+  case 5:
+    day = '五'
+    break;
+  case 6:
+    day = '六'
+    break;
+  case 0:
+    day = '日'
+    break;
+  default:
+    break;
 }
+// 整体事项信息
+const todoValue = reactive({
+  title: '',
+  currentDate: `${hours}:${minutes}`,
+  datetimerange: '',
+  sort: '',
+  importIndex: 0
+});
+
+const findAllTodo = async (userId)=> {
+  await api.findAll({userId: userId}).then(res=> {
+    if(res.data.code === 200) {
+      allTodoList.value = res.data.data
+    }
+  })
+}
+findAllTodo(uid);
+watch(()=> allTodoList.value,(value)=> {
+  allTodoList.value = value
+},{
+  deep: true,
+  immediate: true
+})
+
+const findAllSort = (userId)=> {
+  api.findSort({
+    userId: userId
+  }).then(res=> {
+    todoSort.value = [...res.data.data.sortList]
+  }).catch(err=> {
+    // console.log(err);
+  })
+}
+
+
+findAllSort(uid)
+
+onBeforeMount(()=> {
+  todoValue.sort = todoSort.value[0]
+})
+
+// 清空数据
+const clearTodoValue = ()=> {
+  todoValue.title = '';
+  todoValue.currentDate = '';
+  todoValue.datetimerange = '';
+  todoValue.sort = todoSort.value[0];
+  todoValue.importIndex = 0;
+}
+// 时间点标题
+const dianTitle = ref(`${month}/${date}周${day}`)
+
+// 拖动时间点触发
+const onInput = (event) => {
+  todoValue.currentDate = event.detail
+}
+
+watch(()=> todoValue.datetimerange,(val)=> {
+  todoValue.datetimerange = val
+})
+
+const onChange = function (event) {
+  // 切换主tabs 事件
+  // if(event.detail.name !== 0 && event.detail.name !== todoSort.length + 1) {
+  //   // todoValue.sort = todoSort[event.detail.name - 1];
+  // }else {
+  // }
+  // console.log(todoValue.sort);
+};
+const onChange2 = function (event) {
+  // 切换时间tabs 事件
+  active2.value = event.detail.name
+  if(event.detail.name === 0) {
+    // 选择时间点
+    todoValue.datetimerange=''
+  }else if(event.detail.name === 1) {
+    // 选择范围时间
+    todoValue.currentDate=`${hours}:${minutes}`
+  }
+};
+    
+const isInput = ref(false);
+// input 距离底部距离
+const iptBottom = ref(0) 
+const getFocus = (e)=> {
+  iptBottom.value = e.detail.height;
+}
+const outFocus =(e)=> {
+  iptBottom.value = 85
+}
+// 动作面板
+const isSheet = ref(false); 
+const isSortSheet = ref(false);
+const isImportSheet = ref(false);
+
+const selectImport = (index)=> {
+  todoValue.importIndex = index;
+  setItemData.value.importIndex = index;
+  isImportSheet.value = false;
+  
+}
+const selectSort = (item)=> {
+  todoValue.sort = item;
+  isSortSheet.value = false;
+  let todoInput = uni.createSelectorQuery().select('#todo-input');
+  // todoInput.boundingClientRect((data)=>{
+  //     console.log(data)
+  // }).exec()
+}
+
+// 如果没有选择时间 那么就没有时间
+let isTime = ref(false);
+const closeTime = ()=> {
+  isSheet.value = false;
+  isTime.value = false;
+}
+const sureTime = ()=> {
+  isSheet.value = false;
+  isTime.value = true;
+  if(active2.value === 0) {
+    // 全天
+    let oneDay = '';
+    if(isTime.value) {
+      oneDay = dianTitle.value;
+    }else {
+      oneDay = ''
+    }
+    itemDateTime.value = oneDay;
+    setItemData.value.oneDay = oneDay
+    setItemData.value.currentDate=''
+    setItemData.value.datetimerange=''
+  }else if(active2.value === 1) {
+    // 时间点
+    itemDateTime.value = dianTitle.value + todoValue.currentDate
+    setItemData.value.currentDate = dianTitle.value + todoValue.currentDate
+    setItemData.value.oneDay =''
+    setItemData.value.datetimerange=''
+  }else {
+    // 时间段
+    itemDateTime.value =  todoValue.datetimerange
+    setItemData.value.datetimerange = todoValue.datetimerange
+    setItemData.value.oneDay =''
+    setItemData.value.currentDate=''
+  }
+
+}
+
+//Checked
+const onChangeChecked = ({ detail })=> {
+  checked.value = detail
+}
+
+// 提交
+const submitTodo = (e)=> {
+  e.preventDefault();
+  todoValue.title = todoValue.title.trim();
+  if(todoValue.title === '') {
+    Notify({ type: 'warning', message: '请输入内容' });
+    return
+  }
+  // 先判断选择是时间类型
+  if(active2.value === 0) {
+    // 全天 
+    let oneDay = '';
+    if(isTime.value) { // 默认
+      oneDay = dianTitle.value;
+    }else {
+      oneDay = ''
+    }
+    let params = {
+      uid: uid,
+      title: todoValue.title,
+      sort: todoValue.sort.id,
+      import: todoValue.importIndex,
+      oneDay: oneDay,
+      currentDate: '',
+      datetimerange: '' 
+    }
+    api.addTodo(params).then(async res=> {
+      if(res.data.code !== 200) {
+        uni.showLoading({
+          title: '加载中...'
+        });
+      }else {
+        uni.hideLoading();
+        uni.showToast({
+          icon: "none",
+          title: '添加成功',
+          duration: 3000,
+          position: 'top'
+        })
+      }
+      findAllTodo(uid)
+    })
+  }else if(active2.value === 1) {
+    // 时间点
+    let params = {
+      uid: uid,
+      title: todoValue.title,
+      sort: todoValue.sort.id,
+      import: todoValue.importIndex,
+      oneDay: '',
+      currentDate: dianTitle.value + todoValue.currentDate,
+      datetimerange: '' 
+    }
+    api.addTodo(params).then(async res=> {
+      if(res.data.code !== 200) {
+        uni.showLoading({
+          title: '加载中...'
+        });
+      }else {
+        uni.hideLoading();
+        uni.showToast({
+          icon: "none",
+          title: '添加成功',
+          duration: 3000,
+          position: 'top'
+        })
+      }
+      findAllTodo(uid)
+    })
+  }else if(active2.value === 2) {
+    // 时间段
+    let params = {
+      uid: uid,
+      title: todoValue.title,
+      sort: todoValue.sort.id,
+      import: todoValue.importIndex,
+      oneDay: '',
+      currentDate: '',
+      datetimerange: todoValue.datetimerange
+    }
+    if(res.data.code !== 200) {
+        uni.showLoading({
+          title: '加载中...'
+        });
+      }else {
+        uni.hideLoading();
+        uni.showToast({
+          icon: "none",
+          title: '添加成功',
+          duration: 3000,
+          position: 'top'
+        })
+      }
+    api.addTodo(params).then(async res=> {
+      findAllTodo(uid)
+    })
+  }
+  clearTodoValue()
+  isInput.value = false;
+  // todoValue.title = ''
+  // todoValue.currentDate = `${hours}:${minutes}`
+}
+const setItem = (item)=> {
+  const subItem = JSON.parse(JSON.stringify(item))
+  isPopup.value = true
+  setItemData.value = subItem
+  // itemDateTime.value = item.dateTime
+  // console.log(setItemData.value);
+}
+const updataTodoStatus = (todoId, isFinish) => {
+  api.updataTodoStatus({todoId: todoId, isFinish: +isFinish}).then(res=> {
+    findAllTodo(uid);
+  })
+}
+const updateSubtodo = ()=> {
+  findAllTodo(uid);
+}
+const onClose = ()=> {
+  isPopup.value = false
+  setItemData.value = {}
+  addSubTitle.value = ''
+  findAllTodo(uid);
+  clearTodoValue()
+}
+const addTodoChange = (event)=> {
+  setItemData.value.title = event.detail
+}
+const addSubChange = (event)=> {
+  addSubTitle.value = event.detail
+}
+// 失去焦点 添加
+const pushSubtodo = ()=> {
+  // 添加子任务请求
+  if(addSubTitle.value === '') return
+  const param = {
+    title: addSubTitle.value,
+    isFinite: 0,
+    todoId: setItemData.value.id,
+    uid: setItemData.value.uid
+  }
+  api.insterSubtodo(param).then(res=> {
+    
+  }).catch(err=> {
+    
+  })
+  setItemData.value.subTodoList.push(param)
+  addSubTitle.value = ''
+}
+
+const addSubTodo = ()=> {
+  isAddSub.value = true
+
+}
+
+function removeArray(_arr, _obj) {
+  let length = _arr.length
+  for (let i = 0; i < length; i++) {
+    if (_arr[i] === _obj) {
+      if (i === 0) {
+        _arr.shift() //删除并返回数组的第一个元素
+        return _arr
+      } else if (i === length - 1) {
+        _arr.pop()  //删除并返回数组的最后一个元素
+        return _arr
+      } else {
+        _arr.splice(i, 1) //删除下标为i的元素
+        return _arr
+      }
+    }
+  }
+}
+
+const closeSubTodo = (item)=> {
+  api.deleteSubTodo({id: item.id}).then(res=> {
+    // console.log(res);
+  })
+  setItemData.value.subTodoList = removeArray(setItemData.value.subTodoList,item)
+}
+const saveTodo = ()=> {
+  console.log(setItemData.value);
+  const params = JSON.stringify(setItemData.value)
+  api.updateTodo({todoData: params}).then(async res=> {
+    isPopup.value = false
+    findAllTodo(uid);
+  })
+}
+
+
 </script>
 
 <template>
@@ -305,6 +463,7 @@ export default {
       </ul>
     </div>
   </uni-drawer>
+  
   <div class="content">
   <van-notify id="van-notify" />
     <van-tabs
@@ -313,24 +472,69 @@ export default {
       sticky 
       animated
       swipeable
+      zindex="2"
       >
       <van-tab title="全部">
         <template #default>
           <div class="h">
-            <todolist :dataList="allTodoList" />
+            <todolist v-if="allTodoList.length > 0" :dataList="allTodoList" :checked="checked" @setItem="setItem" @updataTodoStatus="updataTodoStatus" @updateSubTodoStatus="updateSubtodo" />
           </div>
         </template>
       </van-tab>
-      <van-tab :title="item" v-for="item in todoSort" :key="item">
+      <van-tab :title="item.title" v-for="item in todoSort" :key="item.id">
         <template #default>
           <div class="h">
-            <todolist :dataList="sortTodList" :sort="item" />
+            <todolist v-if="allTodoList.length > 0" :dataList="allTodoList" :sort="item" :checked="checked" @setItem="setItem" />
           </div>
         </template>
       </van-tab>
     </van-tabs>
     <!-- 添加按钮 -->
     <div class="add-btn" @click="isInput = true"><span class="iconfont icon-jia"></span></div>
+    <!-- 输入框 -->
+    <div v-if="isInput" class="add-input" :style="{bottom: iptBottom + 'px'}" style="background-color: #fff;">
+      <!-- 输入框上显示的东西 -->
+      <ul class="show-todo"> 
+        <li class="show-todo-item" v-if="isTime">
+          <span class="item-span" v-if="active2 == 0">{{dianTitle}}</span>
+          <span class="item-span" v-if="active2 == 1">{{dianTitle}} {{todoValue.currentDate}}</span>
+          <span class="item-span" v-if="active2 == 2 && todoValue.datetimerange.length !=0 && todoValue.datetimerange[0].substr(-8) == '00:00:00'">{{todoValue.datetimerange[0].substr(0,10)}}—{{todoValue.datetimerange[1].substr(0,10)}}</span>
+          <span class="item-span" v-if="active2 == 2 && todoValue.datetimerange.length !=0 && todoValue.datetimerange[0].substr(-8) != '00:00:00'">{{todoValue.datetimerange[0]}}—{{todoValue.datetimerange[1]}}</span>
+        </li>
+        <li class="show-todo-item">
+          <span class="item-span">{{todoValue.sort.title}}</span>
+        </li>
+        <li class="show-todo-item">
+          <span class="item-span" v-if="todoValue.importIndex == 0">重要且紧急</span>
+          <span class="item-span" v-if="todoValue.importIndex == 1">重要且不紧急</span>
+          <span class="item-span" v-if="todoValue.importIndex == 2">不重要紧急</span>
+          <span class="item-span" v-if="todoValue.importIndex == 3">不重要不紧急</span>
+        </li>
+      </ul>
+      <!-- 提交按钮 -->
+      <span class="submit-todo iconfont icon-feiji" @click.stop="submitTodo($event)"></span>
+      <!-- 输入框 -->
+      <div style="width: 80%;">
+        <van-field
+          id="todo-input"
+          style="z-index: 20;"
+          type="text" 
+          @focus.prevent="getFocus" 
+          @blur="outFocus" 
+          focus
+          :border="true"
+          :autosize="true" 
+          :adjust-position="false"
+          @change="todoValue.title = $event.detail"
+          :value="todoValue.title"
+          placeholder="把事情记录下来~"></van-field>
+      </div>
+      <div class="add-set">
+        <span class="set-item iconfont icon-shijian" style="color: #8a8a8a;" @click="isSheet = true"></span>
+        <span class="set-item iconfont icon-fenlei" style="color: #e98f36;" @click="isSortSheet = true"></span>
+        <span class="set-item iconfont icon-gantanhao" style="color: #f95843;" @click="isImportSheet = true"></span>
+      </div>
+    </div>
     <!-- 时间动作面板 -->
     <van-action-sheet 
       :show="isSheet" 
@@ -392,7 +596,7 @@ export default {
       <ul class="sort-list">
         <li class="sort-item" v-for="item in todoSort" :key="item" @click="selectSort(item)">
           <span>-</span>
-          <span>{{item}}</span>
+          <span>{{item.title}}</span>
         </li>
       </ul>
     </van-action-sheet>
@@ -405,73 +609,133 @@ export default {
     >
       <ul class="imp-list">
         <li class="imp-item" style="color: red;" @click.stop="selectImport(0)">
-          <span style="margin-right: 20px;">1</span>
+          <span style="margin-right: 20px;" class="iconfont icon-a-shuizhipingjia3"></span>
           <span class="imp-tit">重要且紧急</span> 
           <span v-if="todoValue.importIndex === 0" style="color: blue;">√</span>
         </li>
         <li class="imp-item" style="color: orange;" @click.stop="selectImport(1)">
-          <span style="margin-right: 20px;">1</span>
+          <span style="margin-right: 20px;" class="iconfont icon-a-shuizhipingjia2"></span>
           <span class="imp-tit">重要不紧急</span> 
           <span v-if="todoValue.importIndex === 1" style="color: blue;">√</span>
         </li>
         <li class="imp-item" style="color: green;" @click.stop="selectImport(2)">
-          <span style="margin-right: 20px;">1</span>
+          <span style="margin-right: 20px;" class="iconfont icon-a-shuizhipingjia1"></span>
           <span class="imp-tit">不重要紧急</span> 
           <span v-if="todoValue.importIndex === 2" style="color: blue;">√</span>
         </li>
         <li class="imp-item" style="color: blue;" @click.stop="selectImport(3)">
-          <span style="margin-right: 20px;">1</span>
+          <span style="margin-right: 20px;" class="iconfont icon-a-shuizhipingjia"></span>
           <span class="imp-tit">不重要不紧急</span> 
           <span v-if="todoValue.importIndex === 3" style="color: blue;">√</span>
         </li>
       </ul>
     </van-action-sheet>
-    <!-- 输入框 -->
-    <div v-if="isInput" class="add-input" :style="{bottom: iptBottom + 'px'}" style="background-color: #fff;">
-      <ul class="show-todo">
-        <li class="show-todo-item" v-if="isTime">
-          <span class="item-span" v-if="active2 == 0">{{dianTitle}}</span>
-          <span class="item-span" v-if="active2 == 1">{{dianTitle}} {{todoValue.currentDate}}</span>
-          <span class="item-span" v-if="active2 == 2 && todoValue.datetimerange.length !=0 && todoValue.datetimerange[0].substr(-8) == '00:00:00'">{{todoValue.datetimerange[0].substr(0,10)}}—{{todoValue.datetimerange[1].substr(0,10)}}</span>
-          <span class="item-span" v-if="active2 == 2 && todoValue.datetimerange.length !=0 && todoValue.datetimerange[0].substr(-8) != '00:00:00'">{{todoValue.datetimerange[0]}}—{{todoValue.datetimerange[1]}}</span>
-        </li>
-        <li class="show-todo-item">
-          <span class="item-span">{{todoValue.sort}}</span>
-        </li>
-        <li class="show-todo-item">
-          <span class="item-span" v-if="todoValue.importIndex == 0">重要且紧急</span>
-          <span class="item-span" v-if="todoValue.importIndex == 1">重要且不紧急</span>
-          <span class="item-span" v-if="todoValue.importIndex == 2">不重要紧急</span>
-          <span class="item-span" v-if="todoValue.importIndex == 3">不重要不紧急</span>
-        </li>
-      </ul>
-      <span class="submit-todo iconfont icon-feiji" @click.stop="submitTodo($event)"></span>
-      <div style="width: 80%;">
-        <van-field
-          id="todo-input"
-          style="z-index: 20;"
-          type="text" 
-          @focus.prevent="getFocus" 
-          @blur="outFocus" 
-          focus
-          :border="true"
-          :autosize="true" 
-          :adjust-position="false"
-          @change="todoValue.title = $event.detail"
-          :value="todoValue.title"
-          placeholder="把事情记录下来~"></van-field>
-      </div>
-      <div class="add-set">
-        <span class="set-item iconfont icon-shijian" style="color: #8a8a8a;" @click="isSheet = true"></span>
-        <span class="set-item iconfont icon-fenlei" style="color: #e98f36;" @click="isSortSheet = true"></span>
-        <span class="set-item iconfont icon-gantanhao" style="color: #f95843;" @click="isImportSheet = true"></span>
-      </div>
-    </div>
+    
     <van-overlay :show="isInput" @click="isInput=false" z-index="50" />
   </div>
+
+  <van-popup
+    :show="isPopup"
+    position="bottom"
+    round
+    @close="onClose"
+  >
+    <div class="set-todo">
+      <div class="set-top" style="display: flex;align-items: center;">
+        <span style="color: red;" @click="isImportSheet = true" class="iconfont icon-a-shuizhipingjia3" v-if="todoValue.importIndex === 0"></span>
+        <span style="color: orange;" @click="isImportSheet = true" class="iconfont icon-a-shuizhipingjia2" v-if="todoValue.importIndex === 1"></span>
+        <span style="color: green;" @click="isImportSheet = true" class="iconfont icon-a-shuizhipingjia1" v-if="todoValue.importIndex === 2"></span>
+        <span style="color: blue;" @click="isImportSheet = true" class="iconfont icon-a-shuizhipingjia" v-if="todoValue.importIndex === 3"></span>
+        <div class="set-title">
+          <van-field
+            type="text"
+            maxlength=15
+            custom-style="font-size: 16px;"
+            :value="setItemData.title"
+            @change="addTodoChange"
+          >
+          </van-field>
+        </div>
+      </div>
+      <div class="set-mid">
+        <ul>
+          <li class="subtodoItem" v-for="item in setItemData.subTodoList" :key="item.id" style="margin-bottom: 3px;">
+            <span class="iconfont icon-big-circle" style="color: blue;"></span>
+            <span class="subtitle">{{item.title}}</span>
+            <span @click="closeSubTodo(item)" class="iconfont icon-cuowuguanbiquxiao-xianxingyuankuang"></span>
+          </li>
+        </ul>
+        <van-field 
+          v-if="isAddSub" 
+          type="text" 
+          placeholder="子任务~" 
+          focus
+          :value="addSubTitle"
+          @change="addSubChange"
+          @blur="pushSubtodo"
+        />
+        <div class="add-sub-item" @click="addSubTodo" style="margin-bottom: 10px;">+添加子任务</div>
+        <div>{{setItemData.currentDate}}</div>
+        <div>{{setItemData.datetimerange}}</div>
+        <div>{{setItemData.oneDay}}</div>
+      </div>
+      <div class="set-bottom">
+        <span class="set-btn" @click="isSheet = true">设置时间</span>
+        <span class="set-btn">完成</span>
+        <span class="set-btn">未完成</span>
+        <span class="set-btn">删除</span>
+      </div>
+      <div class="save" style="background-color: #cce6ff;" @click="saveTodo">保存</div>
+    </div>
+  </van-popup>
 </template>
 
-<style lang="less">
+<style lang="less" scoped>
+.subtodoItem {
+  display: flex;
+  align-items: center;
+}
+.subtitle {
+  flex: 1;
+  margin: 0 15px;
+}
+.save {
+  margin: 0 20px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50px;
+  text-align: center;
+}
+.set-todo {
+  height: 100%;
+  .set-top {
+    display: flex;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, .05);
+    padding: 10px 15px;
+    .set-title {
+      margin-left: 13px;
+    }
+  }
+  .set-mid {
+    padding: 0 15px;
+  }
+  .set-bottom {
+    margin: 20px 0;
+    display: flex;
+    width: 100%;
+    .set-btn {
+      border-radius: 15px;
+      flex: 1;
+      text-align: center;
+      height: 35px;
+      line-height: 35px;
+      background-color: #cce6ff;
+      margin: 0 10px;
+      width: 110px;
+    }
+  }
+}
 .close {
   display: inline-block;
   transform: rotate(0deg);
@@ -547,7 +811,7 @@ export default {
   justify-content: space-around;
   align-items: center;
   .sort-item {
-    background-color: antiquewhite;
+    background-color: rgb(215, 231, 250);
     width: 80px;
     height: 80px;
     margin-bottom: 10px;
@@ -555,6 +819,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-radius: 15px;
   }
 }
 
